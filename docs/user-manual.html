@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>知脉溯源 — 使用手册</title>
+<style>
+  @page { size: A4; margin: 2cm 2.2cm; }
+  @page cover { @top-center { content: none; } }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 11pt; line-height: 1.8; color: rgba(0,0,0,0.85);
+  }
+  h1 { font-size: 22pt; color: #1677ff; border-bottom: 3px solid #1677ff; padding-bottom: 8px; margin: 32px 0 16px; page-break-before: always; }
+  h1:first-of-type { page-break-before: auto; }
+  h2 { font-size: 15pt; color: #0958d9; margin: 24px 0 12px; padding-left: 8px; border-left: 4px solid #1677ff; }
+  h3 { font-size: 12pt; color: rgba(0,0,0,0.85); margin: 18px 0 8px; }
+  p { margin: 8px 0; text-indent: 2em; }
+  p.no-indent { text-indent: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt; }
+  th { background: #1677ff; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; }
+  td { border: 1px solid #d9d9d9; padding: 6px 10px; }
+  tr:nth-child(even) td { background: #f5f5f5; }
+  code { background: #f0f5ff; padding: 2px 6px; border-radius: 3px; font-family: "Cascadia Code", "Fira Code", Consolas, monospace; font-size: 9.5pt; color: #0958d9; }
+  pre { background: #1e1e2e; color: #cdd6f4; padding: 14px 18px; border-radius: 6px; overflow-x: auto; font-size: 9pt; line-height: 1.6; margin: 10px 0; }
+  ul, ol { margin: 8px 0 8px 2em; }
+  li { margin: 4px 0; }
+  .cover { text-align: center; padding: 100px 0 60px; page: cover; }
+  .cover h1 { font-size: 32pt; border: none; margin-bottom: 12px; }
+  .cover .subtitle { font-size: 14pt; color: rgba(0,0,0,0.55); margin-bottom: 40px; }
+  .cover .meta { font-size: 10pt; color: rgba(0,0,0,0.45); margin-top: 60px; }
+  .cover .ai-badge { display: inline-block; background: #722ed1; color: #fff; padding: 4px 14px; border-radius: 12px; font-size: 9pt; margin-top: 20px; }
+  .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0; }
+  .feature-card { border: 1px solid #d9d9d9; border-radius: 8px; padding: 14px; border-left: 4px solid #1677ff; }
+  .feature-card h4 { color: #1677ff; margin-bottom: 4px; }
+  .note { background: #fff7e6; border-left: 4px solid #faad14; padding: 10px 14px; margin: 14px 0; border-radius: 4px; font-size: 10pt; }
+  .tip { background: #f0f5ff; border-left: 4px solid #1677ff; padding: 10px 14px; margin: 14px 0; border-radius: 4px; font-size: 10pt; }
+  .toc { background: #fafafa; border: 1px solid #d9d9d9; border-radius: 8px; padding: 18px 24px; margin: 20px 0; }
+  .toc h3 { margin-top: 0; }
+  .toc li { list-style: none; font-size: 10.5pt; }
+  .toc a { color: #1677ff; text-decoration: none; }
+  .footer { text-align: center; font-size: 8pt; color: rgba(0,0,0,0.35); margin-top: 40px; padding-top: 16px; border-top: 1px solid #d9d9d9; }
+  .step-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: #1677ff; color: #fff; border-radius: 50%; font-size: 11pt; font-weight: 700; margin-right: 8px; }
+  img { max-width: 100%; border: 1px solid #d9d9d9; border-radius: 6px; margin: 10px 0; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ 封面 ═══════════ -->
+<div class="cover">
+  <h1>知脉溯源</h1>
+  <p class="subtitle">CDM驱动的知识状态诊断与根因追溯系统 · 使用手册</p>
+  <p style="font-size:11pt;color:rgba(0,0,0,0.55);">版本 2.0.0 | 2026年5月</p>
+  <div class="ai-badge">⚠ 内容使用AI生成</div>
+  <p class="meta">
+    基于DINA模型的认知诊断系统<br>
+    5-Agent协作框架 | 9个功能页面 | 18个可复用组件<br>
+    支持课件管理、作业分析、知识状态诊断、根因追溯、教学决策
+  </p>
+</div>
+
+<!-- ═══════════ 目录 ═══════════ -->
+<div class="toc">
+  <h3>📑 目录</h3>
+  <ol>
+    <li><a href="#ch1">第一章 产品概述</a></li>
+    <li><a href="#ch2">第二章 快速入门</a></li>
+    <li><a href="#ch3">第三章 项目管理</a></li>
+    <li><a href="#ch4">第四章 课件管理</a></li>
+    <li><a href="#ch5">第五章 知识中心</a></li>
+    <li><a href="#ch6">第六章 作业管理</a></li>
+    <li><a href="#ch7">第七章 作业中心 — Q矩阵编辑</a></li>
+    <li><a href="#ch8">第八章 诊断中心</a></li>
+    <li><a href="#ch9">第九章 教学决策</a></li>
+    <li><a href="#ch10">第十章 Agent监控</a></li>
+    <li><a href="#ch11">第十一章 系统设置</a></li>
+    <li><a href="#ch12">第十二章 常见问题</a></li>
+  </ol>
+</div>
+
+<!-- ═══════════ 第一章 产品概述 ═══════════ -->
+<h1 id="ch1">第一章 产品概述</h1>
+
+<h2>1.1 产品简介</h2>
+<p>知脉溯源是一套基于<strong>认知诊断模型（CDM）</strong>的智能教学辅助系统。本系统以<strong>DINA（Deterministic Inputs, Noisy "And" gate）模型</strong>为核心算法引擎，通过分析学生的答题数据，量化评估学生对每个知识点的掌握状态，并自动追溯薄弱知识点的根本原因，为教师提供数据驱动的教学决策依据。</p>
+
+<p>与传统的主观经验判断不同，本系统基于<strong>Q矩阵理论</strong>和<strong>期望最大化（EM）算法</strong>，能够客观计算出每个学生的知识状态向量（α）、试题猜测参数（g）和失误参数（s），实现精准的认知诊断。</p>
+
+<h2>1.2 核心功能</h2>
+<div class="feature-grid">
+  <div class="feature-card">
+    <h4>📊 认知诊断</h4>
+    <p>基于DINA模型的EM参数估计，输出每个学生对每个知识点的掌握概率，定位薄弱环节。</p>
+  </div>
+  <div class="feature-card">
+    <h4>🔍 根因追溯</h4>
+    <p>沿知识图谱前驱链自动追溯，找到导致当前薄弱的最深层根本原因。</p>
+  </div>
+  <div class="feature-card">
+    <h4>📈 知识追踪</h4>
+    <p>基于BKT模型的掌握率轨迹图与遗忘曲线，预测知识遗忘趋势与最佳复习时间。</p>
+  </div>
+  <div class="feature-card">
+    <h4>🎯 教学决策</h4>
+    <p>自动生成个性化学习路径、补课优先级排序、学生分组建议和教学干预方案。</p>
+  </div>
+  <div class="feature-card">
+    <h4>🤖 5-Agent协作</h4>
+    <p>诊断Agent、知识Agent、追踪Agent、教学Agent、演化Agent，通过AgentBus协同工作。</p>
+  </div>
+  <div class="feature-card">
+    <h4>📝 课件&作业管理</h4>
+    <p>支持PPT课件上传与解析、作业创建与导入、Q矩阵可视化编辑。</p>
+  </div>
+</div>
+
+<h2>1.3 适用场景</h2>
+<table>
+  <tr><th style="width:20%">场景</th><th>说明</th></tr>
+  <tr><td>日常教学诊断</td><td>教师布置作业后，系统自动分析全班知识掌握情况，输出诊断报告</td></tr>
+  <tr><td>期中/期末分析</td><td>大规模诊断分析，生成班级掌握率热力图，识别共性薄弱知识点</td></tr>
+  <tr><td>个性化辅导</td><td>针对单个学生进行精准诊断，追溯根本原因，生成个性化学习路径</td></tr>
+  <tr><td>教研数据支撑</td><td>为教研团队提供量化的教学效果评估数据和课程优化建议</td></tr>
+</table>
+
+<h2>1.4 技术特色</h2>
+<table>
+  <tr><th>特性</th><th>技术方案</th></tr>
+  <tr><td>诊断模型</td><td>DINA模型 + EM算法（n_kp≤15），蒙特卡洛EM（n_kp>15降级）</td></tr>
+  <tr><td>根因算法</td><td>沿前驱链图搜索最深层低掌握节点，综合深度×掌握率评分</td></tr>
+  <tr><td>知识图谱</td><td>6层结构：学科→主题→单元→知识点→考点→考法</td></tr>
+  <tr><td>Agent框架</td><td>DiagnosisAgent、KnowledgeAgent、TracingAgent、TeachingAgent、EvolutionAgent</td></tr>
+  <tr><td>反事实推理</td><td>基于CDM参数化模型，量化预测"如果补了X，Y从A%→B%"</td></tr>
+  <tr><td>遗忘建模</td><td>Ebbinghaus遗忘曲线拟合，半衰期标注，最佳复习时间推荐</td></tr>
+</table>
+
+<!-- ═══════════ 第二章 快速入门 ═══════════ -->
+<h1 id="ch2">第二章 快速入门</h1>
+
+<h2>2.1 首次访问系统</h2>
+<p>系统部署完成后，在浏览器中打开对应地址（默认 <code>http://localhost:5173</code>），即可进入"系统总览"仪表盘页面。左侧为导航菜单栏，提供全部功能模块的入口。</p>
+
+<h2>2.2 标准使用流程</h2>
+<p class="no-indent">完整的诊断分析流程包含以下步骤：</p>
+<ol>
+  <li><span class="step-num">1</span><strong>创建项目</strong>：在"项目管理"中创建新项目，设置学科、年级等信息</li>
+  <li><span class="step-num">2</span><strong>导入课标</strong>：为项目导入对应学科的课程标准数据，构建知识图谱</li>
+  <li><span class="step-num">3</span><strong>上传课件</strong>：上传教学PPT课件，系统自动解析知识点分布</li>
+  <li><span class="step-num">4</span><strong>创建作业</strong>：创建作业并录入题目，配置Q矩阵（题目→知识点映射）</li>
+  <li><span class="step-num">5</span><strong>导入答题数据</strong>：导入学生的答题记录（Excel或CSV格式）</li>
+  <li><span class="step-num">6</span><strong>执行CDM诊断</strong>：在"诊断总览"中启动CDM参数估计</li>
+  <li><span class="step-num">7</span><strong>查看诊断结果</strong>：查看班级/学生级别的诊断报告和根因追溯</li>
+  <li><span class="step-num">8</span><strong>制定教学方案</strong>：基于诊断结果获取个性化学习路径和教学建议</li>
+</ol>
+
+<div class="note">
+  <strong>⚠ 注意</strong>：首次使用请务必先导入课标数据并至少完成一次课件上传+作业创建，否则诊断功能无法产生有意义的结果。
+</div>
+
+<h2>2.3 导航菜单说明</h2>
+<table>
+  <tr><th>菜单项</th><th>功能说明</th></tr>
+  <tr><td>系统总览</td><td>项目数量、课件数量、解析状态等关键指标概览</td></tr>
+  <tr><td>项目管理</td><td>创建/切换/管理项目，导入课标数据</td></tr>
+  <tr><td>课件管理</td><td>上传PPT课件，查看解析状态和知识点分布</td></tr>
+  <tr><td>知识中心</td><td>合并知识图谱与知识点详情，三栏布局浏览6层知识结构</td></tr>
+  <tr><td>作业中心</td><td>创建作业、录入题目和答题数据、Q矩阵可视化编辑</td></tr>
+  <tr><td>诊断中心</td><td>三Tab整合：班级诊断/CDM参数估计、学生诊断/根因追溯、CDM参数详解/反事实预测</td></tr>
+  <tr><td>教学决策</td><td>学习路径生成、教学建议、学生分组</td></tr>
+  <tr><td>Agent监控</td><td>5个Agent的状态、消息流、事件日志</td></tr>
+  <tr><td>系统设置</td><td>用户设置、项目配置、通知偏好</td></tr>
+</table>
+
+<!-- ═══════════ 第三章 项目管理 ═══════════ -->
+<h1 id="ch3">第三章 项目管理</h1>
+
+<h2>3.1 创建项目</h2>
+<p>在"项目管理"页面，点击右上角<strong>"新建项目"</strong>按钮，在弹出的对话框中填写以下信息：</p>
+<table>
+  <tr><th style="width:18%">字段</th><th style="width:12%">必填</th><th>说明</th></tr>
+  <tr><td>项目名称</td><td>是</td><td>自定义项目名称，如"高一地理诊断"</td></tr>
+  <tr><td>学科</td><td>是</td><td>从下拉列表选择，支持地理、数学、物理、化学、生物、历史、语文、英语</td></tr>
+  <tr><td>年级</td><td>否</td><td>选择年级，用于标注和分组</td></tr>
+  <tr><td>描述</td><td>否</td><td>项目的补充说明文字</td></tr>
+</table>
+<p>点击<strong>"确定"</strong>完成创建。创建成功后，项目卡片会出现在列表中。</p>
+
+<h2>3.2 切换项目</h2>
+<p>点击项目卡片即可切换当前活动项目。当前项目会以蓝色边框高亮显示，并在卡片上标注<strong>"当前"</strong>标签。系统右上角会显示当前选中的项目。</p>
+
+<h2>3.3 导入课标</h2>
+<p>对于新建的项目，需要导入课程标准数据来构建知识图谱。在项目卡片上点击<strong>"导入课标"</strong>按钮，系统将自动加载对应学科的课标数据（JSON格式外置文件），包括知识点层级结构、前驱关系和认知层次标注。</p>
+
+<div class="tip">
+  <strong>💡 提示</strong>：课标数据存放在 <code>backend/data/curriculum/</code> 目录下。导入成功后，课标数据将加载到系统内存并持久化到数据库。
+</div>
+
+<!-- ═══════════ 第四章 课件管理 ═══════════ -->
+<h1 id="ch4">第四章 课件管理</h1>
+
+<h2>4.1 上传课件</h2>
+<p>在"课件管理"页面，点击<strong>"上传课件"</strong>按钮，选择PPT文件（.pptx格式）上传。系统支持两种解析模式：</p>
+<table>
+  <tr><th>模式</th><th>说明</th></tr>
+  <tr><td>模板解析（template）</td><td>适用于按固定模板制作的PPT课件，解析准确率高</td></tr>
+  <tr><td>自由解析（free）</td><td>适用于任意格式的PPT课件，通过NLP技术提取知识点</td></tr>
+</table>
+
+<h2>4.2 查看解析结果</h2>
+<p>课件上传后，系统会自动启动解析任务。您可以在课件列表中查看解析状态：</p>
+<table>
+  <tr><th>状态标签</th><th>含义</th></tr>
+  <tr><td>待解析（pending）</td><td>课件已上传，等待解析</td></tr>
+  <tr><td>解析中（parsing）</td><td>正在解析课件内容</td></tr>
+  <tr><td>已完成（completed）</td><td>解析成功，知识点已提取并录入知识图谱</td></tr>
+  <tr><td>失败（failed）</td><td>解析失败，请检查PPT文件格式</td></tr>
+</table>
+
+<h2>4.3 课件详情</h2>
+<p>点击课件名称可查看课件详情，包括每个幻灯片涉及的知识点列表、对应的课标对齐情况等。</p>
+
+<!-- ═══════════ 第五章 知识中心 ═══════════ -->
+<h1 id="ch5">第五章 知识中心</h1>
+
+<h2>5.1 页面概述</h2>
+<p>知识中心页面（KnowledgeCenter）将原"知识图谱"和"知识点详情"两个页面合并为<strong>三栏布局</strong>：左侧为知识树导航，中间为图谱可视化区域，右侧为节点详情面板。完整展示6层知识结构：<strong>学科 → 主题 → 单元 → 知识点 → 考点 → 考法</strong>。</p>
+
+<div class="tip">
+  <strong>💡 提示</strong>：知识图谱的浏览与知识点详情查看现在统一在"知识中心"页面中完成，无需切换页面。
+</div>
+
+<h2>5.2 节点交互</h2>
+<ul>
+  <li><strong>点击节点</strong>：查看该知识点的详细信息，包括描述、认知层次、课标对齐、关联题目数量</li>
+  <li><strong>搜索节点</strong>：通过搜索框输入知识点名称或编码，快速定位目标节点</li>
+  <li><strong>前驱链追溯</strong>：查看指定知识点的所有前置依赖关系，了解学习路径</li>
+</ul>
+
+<h2>5.3 层级说明</h2>
+<table>
+  <tr><th>层级</th><th>名称</th><th>示例</th><th>标签色</th></tr>
+  <tr><td>L0</td><td>学科</td><td>地理</td><td style="color:#1677ff">蓝色</td></tr>
+  <tr><td>L1</td><td>主题</td><td>自然地理</td><td style="color:#52c41a">绿色</td></tr>
+  <tr><td>L2</td><td>单元</td><td>大气运动</td><td style="color:#faad14">橙色</td></tr>
+  <tr><td>L3</td><td>知识点</td><td>气压梯度力</td><td style="color:#722ed1">紫色</td></tr>
+  <tr><td>L4</td><td>考点</td><td>等压线判读</td><td style="color:#ff4d4f">红色</td></tr>
+  <tr><td>L5</td><td>考法</td><td>综合应用题</td><td style="color:#eb2f96">粉色</td></tr>
+</table>
+
+<!-- ═══════════ 第六章 作业管理 ═══════════ -->
+<h1 id="ch6">第六章 作业管理</h1>
+
+<h2>6.1 创建作业</h2>
+<p>在"作业管理"页面，点击<strong>"创建作业"</strong>按钮，填写作业标题、班级信息后确认创建。</p>
+
+<h2>6.2 录入题目</h2>
+<p>创建作业后，可以逐题录入：</p>
+<ul>
+  <li><strong>题目序号</strong>：在作业中的顺序编号</li>
+  <li><strong>题目内容</strong>：题目的完整描述</li>
+  <li><strong>题目类型</strong>：选择题、填空题、简答题等</li>
+  <li><strong>分值</strong>：该题目的满分值</li>
+  <li><strong>Q矩阵映射</strong>：标注该题目考核的知识点（可在Q矩阵编辑器中完成）</li>
+</ul>
+
+<h2>6.3 导入答题数据</h2>
+<p>通过导入功能批量录入学生答题数据，支持Excel/CSV格式。每行包含学生ID、题目ID、学生答案、得分、是否正确等字段。</p>
+
+<!-- ═══════════ 第七章 Q矩阵编辑 ═══════════ -->
+<h1 id="ch7">第七章 作业中心 — Q矩阵编辑</h1>
+
+<div class="tip">
+  <strong>💡 提示</strong>：Q矩阵编辑功能现已整合到"作业中心（HomeworkCenter）"页面中，与作业管理在同一页面内完成。
+</div>
+
+<h2>7.1 什么是Q矩阵</h2>
+<p>Q矩阵是认知诊断模型的核心输入，定义了题目与知识点的映射关系。一个<strong>M×K</strong>的二元矩阵，其中 M 为题目数，K 为知识点数，<code>q<sub>jk</sub>=1</code> 表示题目 j 考核了知识点 k。</p>
+
+<h2>7.2 可视化编辑</h2>
+<p>在Q矩阵编辑器页面中：</p>
+<ul>
+  <li><strong>行</strong>：每行代表一道题目</li>
+  <li><strong>列</strong>：每列代表一个知识点</li>
+  <li><strong>单元格</strong>：点击切换 ✓（考核） / ○（不考核）</li>
+  <li><strong>确认状态</strong>：已确认的映射会特殊标注</li>
+</ul>
+
+<div class="tip">
+  <strong>💡 提示</strong>：Q矩阵的质量直接影响CDM诊断精度。建议教师在编辑后仔细核对，确保每个题目考核的知识点映射准确。
+</div>
+
+<h2>7.3 智能生成</h2>
+<p>系统支持通过NLP分析题目内容自动生成Q矩阵建议，教师在此基础上进行调整确认即可，大幅降低人工标注工作量。</p>
+
+<!-- ═══════════ 第八章 认知诊断 ═══════════ -->
+<h1 id="ch8">第八章 诊断中心</h1>
+
+<div class="tip">
+  <strong>💡 提示</strong>：诊断功能现已整合到"诊断中心（DiagnosisCenter）"页面中，通过<strong>三个Tab标签页</strong>统一入口：班级诊断、学生诊断、CDM参数。
+</div>
+
+<h2>8.1 班级诊断（Tab 1）</h2>
+<p>在"诊断中心 → 班级诊断"Tab中，选择作业后点击<strong>"CDM估计"</strong>按钮启动诊断。系统将执行以下流程：</p>
+<ol>
+  <li>基于Q矩阵和学生答题数据构建响应矩阵</li>
+  <li>使用EM算法迭代估计DINA模型参数（slipping、guessing、alpha向量）</li>
+  <li>输出AIC/BIC拟合优度指标</li>
+  <li>展示班级平均掌握率、薄弱知识点排行</li>
+</ol>
+
+<h2>8.2 诊断指标说明</h2>
+<table>
+  <tr><th>指标</th><th>公式/含义</th></tr>
+  <tr><td>α<sub>ik</sub>（知识状态）</td><td>学生 i 对知识点 k 的掌握概率，0~1，≥0.5视为掌握</td></tr>
+  <tr><td>s<sub>k</sub>（失误参数）</td><td>学生掌握了知识点 k 但仍答错题目的概率</td></tr>
+  <tr><td>g<sub>k</sub>（猜测参数）</td><td>学生未掌握知识点 k 但仍答对题目的概率</td></tr>
+  <tr><td>AIC</td><td>赤池信息量准则，值越小模型拟合越好</td></tr>
+  <tr><td>BIC</td><td>贝叶斯信息量准则，比AIC更严格地惩罚模型复杂度</td></tr>
+</table>
+
+<h2>8.3 学生诊断（Tab 2）</h2>
+<p>在"诊断中心 → 学生诊断"Tab中，输入学生ID和作业ID，点击"诊断"按钮获取该生的详细诊断结果：</p>
+<ul>
+  <li><strong>知识状态向量</strong>：每个知识点的P(掌握)值</li>
+  <li><strong>根因追溯树</strong>：以树形结构展示薄弱知识点及其深层根本原因</li>
+  <li><strong>薄弱知识点列表</strong>：按掌握率从低到高排序</li>
+</ul>
+
+<h2>8.4 CDM参数（Tab 3）</h2>
+<p>"诊断中心 → CDM参数"Tab提供更深层的技术视图：</p>
+<ul>
+  <li><strong>CDM参数面板</strong>：展示完整的slip/guess向量和alpha矩阵</li>
+  <li><strong>反事实预测</strong>：模拟"如果学生补上知识点X，知识点Y的掌握率将从A%提升到B%"</li>
+  <li><strong>模型收敛信息</strong>：EM迭代次数、收敛状态、AIC/BIC值</li>
+</ul>
+
+<div class="note">
+  <strong>⚠ 技术说明</strong>：当知识点数量超过15个时，系统自动降级为蒙特卡洛EM算法，以避免指数爆炸。此模式下收敛速度较慢但结果仍然可靠。
+</div>
+
+<!-- ═══════════ 第九章 教学决策 ═══════════ -->
+<h1 id="ch9">第九章 教学决策</h1>
+
+<h2>9.1 学习路径生成</h2>
+<p>基于诊断结果，系统自动为每位学生生成个性化学习路径：</p>
+<ul>
+  <li><strong>复习步骤</strong>：需要重新巩固的薄弱知识点</li>
+  <li><strong>练习步骤</strong>：针对性的练习题推荐</li>
+  <li><strong>评估步骤</strong>：学习后效果验证</li>
+  <li><strong>里程碑</strong>：阶段性学习目标</li>
+</ul>
+<p>每条路径包含预计用时和总学习时长估算（总学时、建议课次、建议周数）。</p>
+
+<h2>9.2 教学建议</h2>
+<table>
+  <tr><th>建议类型</th><th>内容</th></tr>
+  <tr><td>补课优先级</td><td>按班级薄弱率排序的知识点列表，标注影响范围</td></tr>
+  <tr><td>学生分组</td><td>基于CDM参数聚类分析，将学生分为不同教学需求的组别</td></tr>
+  <tr><td>干预方案</td><td>针对每个薄弱知识点的具体教学干预建议</td></tr>
+  <tr><td>课件优化</td><td>根据诊断结果建议调整课件内容和教学重点</td></tr>
+</table>
+
+<!-- ═══════════ 第十章 Agent监控 ═══════════ -->
+<h1 id="ch10">第十章 Agent监控</h1>
+
+<h2>10.1 Agent概述</h2>
+<p>系统由5个自治Agent通过AgentBus消息总线协同工作：</p>
+<table>
+  <tr><th>Agent</th><th>图标</th><th>职责</th><th>触发条件</th></tr>
+  <tr><td>DiagnosisAgent</td><td>🧪</td><td>DINA诊断 + 根因追溯</td><td>收到答题数据</td></tr>
+  <tr><td>KnowledgeAgent</td><td>🏗</td><td>图谱构建 + 课件解析</td><td>课件上传</td></tr>
+  <tr><td>TracingAgent</td><td>📈</td><td>BKT追踪 + 遗忘曲线</td><td>诊断完成</td></tr>
+  <tr><td>TeachingAgent</td><td>💡</td><td>学习路径 + 教学建议</td><td>诊断完成</td></tr>
+  <tr><td>EvolutionAgent</td><td>🔄</td><td>在线EM + 因果发现</td><td>新数据到达</td></tr>
+</table>
+
+<h2>10.2 查看Agent状态</h2>
+<p>在"Agent监控"页面，可查看每个Agent的实时状态：</p>
+<ul>
+  <li><strong>状态标签</strong>：运行中（绿色）、空闲（灰色）、异常（红色）</li>
+  <li><strong>最后事件</strong>：最近一次处理的消息类型和时间</li>
+  <li><strong>消息流</strong>：Agent之间的消息传递记录，显示发送方→接收方</li>
+</ul>
+
+<!-- ═══════════ 第十一章 系统设置 ═══════════ -->
+<h1 id="ch11">第十一章 系统设置</h1>
+
+<h2>11.1 用户设置</h2>
+<p>在"系统设置 → 用户设置"标签页中，可配置：</p>
+<ul>
+  <li>昵称</li>
+  <li>邮箱</li>
+  <li>主教学科</li>
+  <li>默认年级</li>
+</ul>
+
+<h2>11.2 项目配置</h2>
+<p>"项目配置"标签页提供：</p>
+<ul>
+  <li>当前项目选择器（带学科、年级标签）</li>
+  <li>CDM模型类型选择（DINA / DINO）</li>
+  <li>掌握阈值设置（0.4宽松 / 0.5标准 / 0.6严格）</li>
+  <li>遗忘曲线半衰期设置（3/7/14/30天）</li>
+</ul>
+
+<h2>11.3 通知偏好</h2>
+<p>可独立开关以下通知类型：</p>
+<ul>
+  <li>诊断完成通知</li>
+  <li>课件解析完成通知</li>
+  <li>Agent异常通知</li>
+  <li>每周摘要报告</li>
+</ul>
+
+<!-- ═══════════ 第十二章 常见问题 ═══════════ -->
+<h1 id="ch12">第十二章 常见问题</h1>
+
+<h2>Q1：诊断结果为什么显示"数据不足"？</h2>
+<p>CDM模型至少需要Q矩阵和答题数据同时存在。请确认：1）作业中已录入题目并配置了Q矩阵；2）已导入学生答题数据；3）答题数据中的题目ID与作业题目ID一致。</p>
+
+<h2>Q2：根因追溯的结果是什么意思？</h2>
+<p>根因追溯从薄弱知识点出发，沿知识图谱中的前驱链向上追溯，找到掌握率最低且位置最深的前驱节点作为"根本原因"。例如，"大气运动"掌握率低的原因可能是更基础的"气压梯度"概念没有掌握。</p>
+
+<h2>Q3：为什么某些知识点诊断结果不准确？</h2>
+<p>诊断精度取决于两个关键因素：1）Q矩阵的准确性——题目与知识点的映射需要准确；2）答题数据量——每个知识点最好有3道以上的题目覆盖。</p>
+
+<h2>Q4：系统支持哪些学科？</h2>
+<p>系统架构上支持任意学科，当前内置课标数据覆盖地理学科。其他学科（数学、物理、化学、生物、历史、语文、英语）需要在 <code>backend/data/curriculum/</code> 下添加对应的课标JSON文件。</p>
+
+<h2>Q5：如何导出诊断报告？</h2>
+<p>在"诊断中心 → CDM参数"Tab中，点击"打印"或"导出PDF"按钮即可生成诊断报告。报告包含学生基本信息、掌握率统计、薄弱知识点列表和教学建议。</p>
+
+<h2>Q6：Agent状态显示"异常"怎么办？</h2>
+<p>首先检查Agent监控页面的事件日志，确认异常原因。常见原因包括：数据库连接中断、课标数据未加载。重启后端服务后Agent会自动重新初始化。</p>
+
+<h2>Q7：上传的PPT课件解析失败怎么办？</h2>
+<p>请检查：1）文件格式是否为.pptx；2）文件是否损坏；3）PPT中是否有足够的文字内容（纯图片PPT无法提取文字信息）。可尝试切换到"自由解析"模式重新解析。</p>
+
+<div class="footer">
+  <p>知脉溯源 · 使用手册 v2.0.0</p>
+  <p>⚠ 本文档内容使用AI生成 | &copy; 2026 知脉溯源</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>知脉溯源 — 代码开发记录</title>
+<style>
+  @page { size: A4; margin: 2cm 2.2cm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 11pt; line-height: 1.8; color: rgba(0,0,0,0.85);
+  }
+  h1 { font-size: 22pt; color: #1677ff; border-bottom: 3px solid #1677ff; padding-bottom: 8px; margin: 32px 0 16px; page-break-before: always; }
+  h1:first-of-type { page-break-before: auto; }
+  h2 { font-size: 15pt; color: #0958d9; margin: 24px 0 12px; padding-left: 8px; border-left: 4px solid #1677ff; }
+  h3 { font-size: 12pt; color: rgba(0,0,0,0.85); margin: 18px 0 8px; }
+  p { margin: 8px 0; text-indent: 2em; }
+  p.no-indent { text-indent: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt; }
+  th { background: #1677ff; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; }
+  td { border: 1px solid #d9d9d9; padding: 6px 10px; vertical-align: top; }
+  tr:nth-child(even) td { background: #f5f5f5; }
+  code { background: #f0f5ff; padding: 2px 6px; border-radius: 3px; font-family: "Cascadia Code", "Fira Code", Consolas, monospace; font-size: 9.5pt; color: #0958d9; }
+  pre { background: #1e1e2e; color: #cdd6f4; padding: 14px 18px; border-radius: 6px; overflow-x: auto; font-size: 9pt; line-height: 1.6; margin: 10px 0; }
+  ul, ol { margin: 8px 0 8px 2em; }
+  li { margin: 4px 0; }
+  .cover { text-align: center; padding: 100px 0 60px; }
+  .cover h1 { font-size: 32pt; border: none; margin-bottom: 12px; }
+  .cover .subtitle { font-size: 14pt; color: rgba(0,0,0,0.55); margin-bottom: 40px; }
+  .cover .meta { font-size: 10pt; color: rgba(0,0,0,0.45); margin-top: 60px; }
+  .cover .ai-badge { display: inline-block; background: #722ed1; color: #fff; padding: 4px 14px; border-radius: 12px; font-size: 9pt; margin-top: 20px; }
+  .note { background: #fff7e6; border-left: 4px solid #faad14; padding: 10px 14px; margin: 14px 0; border-radius: 4px; font-size: 10pt; }
+  .toc { background: #fafafa; border: 1px solid #d9d9d9; border-radius: 8px; padding: 18px 24px; margin: 20px 0; }
+  .toc h3 { margin-top: 0; }
+  .toc li { list-style: none; font-size: 10.5pt; }
+  .toc a { color: #1677ff; text-decoration: none; }
+  .footer { text-align: center; font-size: 8pt; color: rgba(0,0,0,0.35); margin-top: 40px; padding-top: 16px; border-top: 1px solid #d9d9d9; }
+  .stat-card { display: inline-block; background: #f0f5ff; border: 1px solid #1677ff; border-radius: 8px; padding: 10px 18px; margin: 4px; text-align: center; min-width: 100px; }
+  .stat-card .val { font-size: 20pt; color: #1677ff; font-weight: 700; }
+  .stat-card .lbl { font-size: 8pt; color: rgba(0,0,0,0.55); }
+  .endpoint-method { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 8pt; font-weight: 700; color: #fff; margin-right: 6px; min-width: 40px; text-align: center; }
+  .method-get { background: #52c41a; }
+  .method-post { background: #1677ff; }
+  .method-put { background: #faad14; }
+  .method-delete { background: #ff4d4f; }
+  .arch-box { border: 2px solid #1677ff; border-radius: 8px; padding: 14px; margin: 10px 0; background: #f0f5ff; }
+  .arch-box h4 { color: #1677ff; margin-bottom: 7px; font-size: 11pt; }
+  .arch-box .arrow { color: #1677ff; font-weight: 700; margin: 0 8px; }
+  .file-path { color: rgba(0,0,0,0.45); font-size: 9pt; font-family: monospace; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ 封面 ═══════════ -->
+<div class="cover">
+  <h1>知脉溯源</h1>
+  <p class="subtitle">CDM驱动的知识状态诊断与根因追溯系统 · 代码开发记录</p>
+  <p style="font-size:11pt;color:rgba(0,0,0,0.55);">版本 2.0.0 | 2026年5月</p>
+  <div class="ai-badge">⚠ 内容使用AI生成</div>
+  <p class="meta">
+    技术栈：FastAPI + React 18 + TypeScript + PostgreSQL<br>
+    架构：5-Agent协作框架 + AgentBus消息总线<br>
+    算法：DINA模型 · EM参数估计 · 根因追溯 · 反事实推理 · 遗忘曲线
+  </p>
+</div>
+
+<!-- ═══════════ 目录 ═══════════ -->
+<div class="toc">
+  <h3>📑 目录</h3>
+  <ol>
+    <li><a href="#ch1">第一章 项目概览</a></li>
+    <li><a href="#ch2">第二章 技术架构</a></li>
+    <li><a href="#ch3">第三章 后端开发记录</a></li>
+    <li><a href="#ch4">第四章 前端开发记录</a></li>
+    <li><a href="#ch5">第五章 API接口清单</a></li>
+    <li><a href="#ch6">第六章 数据库设计</a></li>
+    <li><a href="#ch7">第七章 核心算法实现</a></li>
+    <li><a href="#ch8">第八章 Agent系统设计</a></li>
+    <li><a href="#ch9">第九章 测试与质量</a></li>
+    <li><a href="#ch10">第十章 部署架构</a></li>
+  </ol>
+</div>
+
+<!-- ═══════════ 第一章 项目概览 ═══════════ -->
+<h1 id="ch1">第一章 项目概览</h1>
+
+<h2>1.1 项目定位</h2>
+<p>知脉溯源是一个面向K-12教育的智能教学辅助平台，以认知诊断理论（CDM）为算法核心，帮助教师从答题数据中量化推断学生的知识状态，实现<strong>从经验驱动到数据驱动</strong>的教学决策转型。</p>
+
+<h2>1.2 代码规模</h2>
+<div style="text-align:center; margin: 16px 0;">
+  <div class="stat-card"><div class="val">15</div><div class="lbl">后端包依赖</div></div>
+  <div class="stat-card"><div class="val">10</div><div class="lbl">前端包依赖</div></div>
+  <div class="stat-card"><div class="val">13</div><div class="lbl">数据库表</div></div>
+  <div class="stat-card"><div class="val">40+</div><div class="lbl">API端点</div></div>
+  <div class="stat-card"><div class="val">约18</div><div class="lbl">前端组件</div></div>
+  <div class="stat-card"><div class="val">9</div><div class="lbl">功能页面</div></div>
+  <div class="stat-card"><div class="val">5</div><div class="lbl">Agent服务</div></div>
+  <div class="stat-card"><div class="val">7</div><div class="lbl">API路由模块</div></div>
+</div>
+
+<h2>1.3 开发阶段</h2>
+<table>
+  <tr><th style="width:12%">阶段</th><th>内容</th><th style="width:12%">状态</th></tr>
+  <tr><td>Phase 1</td><td>基础框架搭建：FastAPI项目结构、数据库ORM、DINA模型原型</td><td>✅ 完成</td></tr>
+  <tr><td>Phase 2</td><td>CDM核心算法：EM参数估计、蒙特卡洛EM、拟合优度（AIC/BIC）</td><td>✅ 完成</td></tr>
+  <tr><td>Phase 3</td><td>Agent框架：5个Agent + AgentBus消息总线 + 事件系统</td><td>✅ 完成</td></tr>
+  <tr><td>Phase 4</td><td>前端页面：13个功能页面 + 路由 + 状态管理 + API对接（重构前）</td><td>✅ 完成</td></tr>
+  <tr><td>Phase 5</td><td>组件库：21个可复用组件（表格/图表/树控件/时间线等）</td><td>✅ 完成</td></tr>
+  <tr><td>Phase 6</td><td>测试：后端54用例 + 前端24用例 + TypeScript类型检查</td><td>✅ 完成</td></tr>
+  <tr><td>Phase 7</td><td>Docker部署：三服务容器编排 + 健康检查 + 数据初始化</td><td>✅ 完成</td></tr>
+  <tr><td>Phase 8</td><td>前端重构：知识中心三栏布局、诊断中心三合一、作业中心聚合、React.lazy懒加载</td><td>✅ 完成</td></tr>
+</table>
+
+<h2>1.4 技术选型理由</h2>
+<table>
+  <tr><th style="width:22%">技术</th><th>选择理由</th></tr>
+  <tr><td>FastAPI（后端框架）</td><td>原生异步支持、自动OpenAPI文档生成、Pydantic数据校验，适合计算密集型诊断API</td></tr>
+  <tr><td>React 18 + TypeScript</td><td>成熟的UI生态（Ant Design 5）、严格类型系统保障大规模组件协作</td></tr>
+  <tr><td>PostgreSQL + SQLite</td><td>生产环境使用PostgreSQL保证并发和数据完整性；开发环境可用SQLite零配置</td></tr>
+  <tr><td>NumPy + SciPy</td><td>CDM的EM算法依赖高效矩阵运算和优化函数，Python科学计算事实标准</td></tr>
+  <tr><td>@ant-design/charts</td><td>基于ECharts的React封装，提供趋势图、热力图、折线图等教育可视化所需图表</td></tr>
+  <tr><td>Zustand</td><td>比Redux更轻量的状态管理，适合中等规模应用，API简洁</td></tr>
+  <tr><td>React.lazy + Suspense</td><td>路由级代码分割，按需加载页面组件，减少首屏打包体积，提升加载性能</td></tr>
+  <tr><td>@antv/g6</td><td>图可视化引擎，用于知识图谱节点/边渲染，支持力导向布局、缩放、拖拽交互</td></tr>
+  <tr><td>Docker Compose</td><td>三服务一键部署，降低环境配置门槛</td></tr>
+</table>
+
+<!-- ═══════════ 第二章 技术架构 ═══════════ -->
+<h1 id="ch2">第二章 技术架构</h1>
+
+<h2>2.1 整体架构</h2>
+
+<div class="arch-box">
+  <h4>用户层</h4>
+  <p>浏览器 (Chrome / Edge / Safari) → React 18 SPA (Ant Design 5 UI)</p>
+</div>
+
+<div class="arch-box">
+  <h4>代理层（Nginx in Docker）</h4>
+  <p>静态文件托管 + <code>/api/*</code> 反向代理到后端:8003</p>
+</div>
+
+<div class="arch-box">
+  <h4>应用层（FastAPI Backend :8003）</h4>
+  <p>
+    Controller (API Routes)<span class="arrow">→</span>
+    Service Layer (DiagnosisService · KnowledgeService · TracingService · TeachingService · EvolutionService)<span class="arrow">→</span>
+    Agent Layer (DiagnosisAgent · KnowledgeAgent · TracingAgent · TeachingAgent · EvolutionAgent)<span class="arrow">→</span>
+    CDM Engine (DINA | DINO | BKT)
+  </p>
+</div>
+
+<div class="arch-box">
+  <h4>AgentBus 消息总线</h4>
+  <p>
+    DiagnosisAgent<span class="arrow">→</span>TracingAgent + TeachingAgent<br>
+    KnowledgeAgent<span class="arrow">→</span>DiagnosisAgent<br>
+    EvolutionAgent<span class="arrow">→</span>全Agent（在线学习信号）
+  </p>
+</div>
+
+<div class="arch-box">
+  <h4>数据层</h4>
+  <p>PostgreSQL 16 · SQLite（开发） · SQLAlchemy ORM · Alembic 迁移</p>
+</div>
+
+<h2>2.2 后端目录结构</h2>
+<pre>backend/
+├── app/
+│   ├── main.py              # FastAPI 应用入口 + lifespan
+│   ├── config.py            # 配置管理 (pydantic-settings)
+│   ├── api/v1/              # REST API 路由层
+│   │   ├── agent.py         # Agent监控 API
+│   │   ├── class_api.py     # 班级管理 API
+│   │   ├── courseware.py    # 课件管理 API
+│   │   ├── curriculum.py    # 课标数据 API
+│   │   ├── diagnosis.py     # 认知诊断 API（核心）
+│   │   ├── homework.py      # 作业管理 API
+│   │   ├── knowledge.py     # 知识图谱 API
+│   │   └── project.py       # 项目管理 API
+│   ├── models/
+│   │   ├── db_models.py     # SQLAlchemy ORM 模型 (13表)
+│   │   └── schemas.py       # Pydantic 请求/响应模型
+│   └── services/
+│       ├── agent_bus.py     # AgentBus 消息总线
+│       ├── agent_diagnosis.py  # 诊断Agent
+│       ├── agent_knowledge.py  # 知识Agent
+│       ├── agent_tracing.py    # 追踪Agent
+│       ├── agent_teaching.py   # 教学Agent
+│       ├── agent_evolution.py  # 演化Agent
+│       ├── dina_model.py      # DINA模型 + EM算法
+│       ├── diagnosis_service.py # 诊断业务流程
+│       ├── knowledge_service.py # 知识图谱服务
+│       └── project_service.py   # 项目CRUD服务
+├── data/curriculum/         # 课标JSON数据文件
+├── tests/                   # 测试用例
+├── init_data.py             # 数据库初始化脚本
+├── Dockerfile               # 后端Docker镜像
+└── requirements.txt         # Python依赖清单
+</pre>
+
+<h2>2.3 前端目录结构</h2>
+<pre>frontend/
+├── src/
+│   ├── App.tsx              # 根组件 + 路由定义
+│   ├── types/index.ts       # TypeScript 类型定义
+│   ├── services/            # API 服务层
+│   │   ├── api.ts           # Axios 实例 + 拦截器
+│   │   ├── diagnosis.ts     # 诊断API
+│   │   ├── homework.ts      # 作业API
+│   │   ├── project.ts       # 项目API
+│   │   └── agent.ts         # Agent API
+│   ├── stores/              # Zustand 状态管理
+│   │   ├── useProjectStore.ts
+│   │   └── useNotificationStore.ts
+│   ├── pages/               # 9个功能页面（重构后聚合）
+│   │   ├── Dashboard/        # 系统总览
+│   │   ├── ProjectManage/    # 项目管理
+│   │   ├── CoursewareManage/ # 课件管理
+│   │   ├── KnowledgeCenter/  # 知识中心（三栏布局）
+│   │   ├── HomeworkCenter/   # 作业中心（聚合）
+│   │   ├── DiagnosisCenter/  # 诊断中心（三合一）
+│   │   ├── TeachingDecision/ # 教学决策
+│   │   ├── AgentMonitor/     # Agent监控
+│   │   └── SystemSettings/   # 系统设置
+│   ├── components/           # 约18个可复用组件
+│   │   ├── AgentMessageFlow/  # Agent消息流
+│   │   ├── AgentStatusCard/   # Agent状态卡片
+│   │   ├── CDMParams/        # CDM参数展示
+│   │   ├── CounterfactualPanel/ # 反事实预测
+│   │   ├── DataTable/         # 通用数据表格
+│   │   ├── DiagnosisReport/   # 诊断报告
+│   │   ├── ExamPointList/     # 考点列表
+│   │   ├── ForgettingCurve/   # 遗忘曲线
+│   │   ├── KnowledgeGraph/    # 知识图谱(@antv/g6)
+│   │   ├── KnowledgeHierarchy/ # 知识层级树
+│   │   ├── LearningPathTimeline/ # 学习路径时间线
+│   │   ├── MasteryHeatmap/     # 掌握率热力图
+│   │   ├── MasteryTrajectory/  # 掌握轨迹图
+│   │   ├── ProjectSelector/    # 项目选择器
+│   │   ├── QMatrixEditor/      # Q矩阵编辑组件
+│   │   ├── RootCauseTree/      # 根因追溯树
+│   │   ├── StatCard/           # 统计卡片
+│   │   └── TrendChart/         # 趋势图
+│   ├── styles/tokens.css      # 设计令牌（主题色）
+│   ├── test/                  # 测试文件
+│   │   ├── setup.ts           # 测试环境配置
+│   │   ├── DataTable.test.tsx
+│   │   ├── CoreComponents.test.tsx
+│   │   ├── ChartComponents.test.tsx
+│   │   └── P1Components.test.tsx
+│   └── main.tsx               # 应用入口
+├── Dockerfile                 # 前端Docker镜像
+├── nginx.conf                 # Nginx配置
+└── package.json               # npm依赖
+</pre>
+
+<!-- ═══════════ 第三章 后端开发记录 ═══════════ -->
+<h1 id="ch3">第三章 后端开发记录</h1>
+
+<h2>3.1 FastAPI 应用入口</h2>
+<p class="no-indent"><span class="file-path">文件：app/main.py</span></p>
+<p>应用采用 <strong>lifespan 上下文管理器</strong>模式管理启动/关闭生命周期：</p>
+<ul>
+  <li><strong>启动阶段</strong>：初始化所有5个Agent → 构建AgentBus → 注册消息处理器 → 预加载知识图谱</li>
+  <li><strong>运行阶段</strong>：提供REST API、WebSocket（预留）、后台任务处理</li>
+  <li><strong>关闭阶段</strong>：优雅关闭Agent任务、释放数据库连接</li>
+</ul>
+<p>应用注册了7个路由模块，覆盖项目、课件、知识图谱、作业、诊断、Agent监控、班级管理等全部业务域。</p>
+
+<h2>3.2 DINA模型实现</h2>
+<p class="no-indent"><span class="file-path">文件：app/services/dina_model.py</span></p>
+<table>
+  <tr><th style="width:20%">组件</th><th>说明</th></tr>
+  <tr><td>响应概率计算</td><td>P(R<sub>ij</sub>=1 | α<sub>i</sub>) = (1-s<sub>j</sub>)<sup>η<sub>ij</sub></sup> × g<sub>j</sub><sup>1-η<sub>ij</sub></sup><br>其中 η<sub>ij</sub> = ∏<sub>k</sub> α<sub>ik</sub><sup>q<sub>jk</sub></sup> 为理想响应</td></tr>
+  <tr><td>EM算法·E步</td><td>计算每个学生属于每个可能知识状态的后验概率 P(α | R)，基于当前模型参数</td></tr>
+  <tr><td>EM算法·M步</td><td>最大化期望对数似然，更新 slip/guess 参数和状态分布先验</td></tr>
+  <tr><td>蒙特卡洛模式</td><td>K > 15 时状态空间 2<sup>K</sup> > 32768，改用随机采样逼近E步积分</td></tr>
+  <tr><td>收敛判断</td><td>连续两次迭代的相对参数变化 < 10<sup>-6</sup> 时视为收敛</td></tr>
+</table>
+
+<h2>3.3 配置管理</h2>
+<p class="no-indent"><span class="file-path">文件：app/config.py</span></p>
+<p>使用 pydantic-settings 实现类型安全的配置管理，支持从环境变量和 .env 文件读取配置。主要配置项包括数据库连接串、CORS跨域白名单、服务端口等。</p>
+
+<!-- ═══════════ 第四章 前端开发记录 ═══════════ -->
+<h1 id="ch4">第四章 前端开发记录</h1>
+
+<h2>4.1 主题色彩系统</h2>
+<p class="no-indent"><span class="file-path">文件：src/styles/tokens.css</span></p>
+<p>前端定义了完整的设计令牌（Design Tokens）体系，统一管理全局视觉样式：</p>
+<table>
+  <tr><th>变量</th><th>值</th><th>用途</th></tr>
+  <tr><td><code>--color-primary</code></td><td><code>#1677ff</code></td><td>主色调（按钮、链接、强调）</td></tr>
+  <tr><td><code>--color-cdm-high</code></td><td><code>#52c41a</code></td><td>CDM高掌握率（绿色）</td></tr>
+  <tr><td><code>--color-cdm-medium</code></td><td><code>#faad14</code></td><td>CDM中等掌握率（橙色）</td></tr>
+  <tr><td><code>--color-cdm-low</code></td><td><code>#ff4d4f</code></td><td>CDM低掌握率 / 根因（红色）</td></tr>
+  <tr><td><code>--color-counterfactual</code></td><td><code>#722ed1</code></td><td>反事实推理 / Agent标识（紫色）</td></tr>
+  <tr><td><code>--color-bg-layout</code></td><td><code>#f5f5f5</code></td><td>页面背景</td></tr>
+</table>
+
+<h2>4.2 状态管理方案</h2>
+<p>前端采用 <strong>Zustand</strong> 轻量状态管理，共2个 store：</p>
+<table>
+  <tr><th>Store</th><th>文件</th><th>管理状态</th></tr>
+  <tr><td>useProjectStore</td><td>stores/useProjectStore.ts</td><td>当前项目ID/名称、项目列表、项目切换</td></tr>
+  <tr><td>useNotificationStore</td><td>stores/useNotificationStore.ts</td><td>全局通知消息、通知计数、通知设置</td></tr>
+</table>
+
+<h2>4.3 API服务层设计</h2>
+<p class="no-indent"><span class="file-path">文件：src/services/api.ts</span></p>
+<p>基于Axios封装统一的HTTP客户端，包含：</p>
+<ul>
+  <li>Base URL 配置（从 VITE_API_BASE_URL 环境变量读取）</li>
+  <li>请求/响应拦截器（错误处理、Token注入预留）</li>
+  <li>诊断专用API模块（diagnosis.ts）</li>
+  <li>作业管理API模块（homework.ts）</li>
+  <li>项目管理API模块（project.ts）</li>
+  <li>Agent监控API模块（agent.ts）</li>
+</ul>
+
+<!-- ═══════════ 第五章 API接口清单 ═══════════ -->
+<h1 id="ch5">第五章 API接口清单</h1>
+
+<h2>5.1 项目管理接口</h2>
+<p class="no-indent"><span class="file-path">路由前缀：/api/v1/projects</span></p>
+<table>
+  <tr><th style="width:8%">方法</th><th>路径</th><th>说明</th></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/projects</td><td>获取项目列表</td></tr>
+  <tr><td><span class="endpoint-method method-post">POST</span></td><td>/api/v1/projects</td><td>创建项目</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/projects/{id}</td><td>获取项目详情</td></tr>
+  <tr><td><span class="endpoint-method method-put">PUT</span></td><td>/api/v1/projects/{id}</td><td>更新项目</td></tr>
+  <tr><td><span class="endpoint-method method-delete">DELETE</span></td><td>/api/v1/projects/{id}</td><td>删除项目</td></tr>
+</table>
+
+<h2>5.2 课件管理接口</h2>
+<p class="no-indent"><span class="file-path">路由前缀：/api/v1/coursewares</span></p>
+<table>
+  <tr><th style="width:8%">方法</th><th>路径</th><th>说明</th></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/coursewares</td><td>课件列表（支持按项目/状态筛选）</td></tr>
+  <tr><td><span class="endpoint-method method-post">POST</span></td><td>/api/v1/coursewares/upload</td><td>上传PPT课件（multipart）</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/coursewares/{id}</td><td>课件详情（含幻灯片解析结果）</td></tr>
+  <tr><td><span class="endpoint-method method-post">POST</span></td><td>/api/v1/coursewares/{id}/parse</td><td>触发课件解析</td></tr>
+</table>
+
+<h2>5.3 知识图谱接口</h2>
+<p class="no-indent"><span class="file-path">路由前缀：/api/v1/knowledge</span></p>
+<table>
+  <tr><th style="width:8%">方法</th><th>路径</th><th>说明</th></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/knowledge/tree</td><td>获取知识层级树（支持学科/层级筛选）</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/knowledge/graph</td><td>获取知识图谱数据（节点+边）</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/knowledge/{kp_id}</td><td>知识点详情（含前驱/后继链）</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/knowledge/exam-points</td><td>考点列表（含考频/难度）</td></tr>
+</table>
+
+<h2>5.4 作业管理接口</h2>
+<p class="no-indent"><span class="file-path">路由前缀：/api/v1/homeworks</span></p>
+<table>
+  <tr><th style="width:8%">方法</th><th>路径</th><th>说明</th></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/homeworks</td><td>作业列表</td></tr>
+  <tr><td><span class="endpoint-method method-post">POST</span></td><td>/api/v1/homeworks</td><td>创建作业</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/homeworks/{id}</td><td>作业详情（含题目列表）</td></tr>
+  <tr><td><span class="endpoint-method method-post">POST</span></td><td>/api/v1/homeworks/{id}/items</td><td>添加题目</td></tr>
+  <tr><td><span class="endpoint-method method-post">POST</span></td><td>/api/v1/homeworks/{id}/answers/import</td><td>导入答题数据（Excel/CSV）</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/homeworks/{id}/qmatrix</td><td>获取Q矩阵</td></tr>
+  <tr><td><span class="endpoint-method method-put">PUT</span></td><td>/api/v1/homeworks/{id}/qmatrix</td><td>更新Q矩阵</td></tr>
+</table>
+
+<h2>5.5 认知诊断接口（核心）</h2>
+<p class="no-indent"><span class="file-path">路由前缀：/api/v1/diagnosis</span></p>
+<table>
+  <tr><th style="width:8%">方法</th><th>路径</th><th>说明</th></tr>
+  <tr><td><span class="endpoint-method method-post">POST</span></td><td>/api/v1/diagnosis/estimate</td><td>执行CDM参数估计（DINA/DINO）</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/diagnosis/sessions</td><td>诊断会话列表</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/diagnosis/sessions/{id}</td><td>诊断会话详情（slip/guess/alpha）</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/diagnosis/sessions/{id}/overview</td><td>班级诊断概览（平均掌握率、薄弱排行）</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/diagnosis/sessions/{id}/student/{sid}</td><td>单个学生诊断结果</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/diagnosis/sessions/{id}/student/{sid}/root-cause</td><td>单个学生根因追溯</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/diagnosis/sessions/{id}/student/{sid}/counterfactual</td><td>反事实预测</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/diagnosis/sessions/{id}/student/{sid}/learning-path</td><td>个性化学习路径</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/diagnosis/sessions/{id}/mastery-heatmap</td><td>班级掌握率热力图数据</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/diagnosis/teaching/suggestions</td><td>教学建议（补课优先级/学生分组/干预方案）</td></tr>
+</table>
+
+<h2>5.6 Agent监控接口</h2>
+<p class="no-indent"><span class="file-path">路由前缀：/api/v1/agent</span></p>
+<table>
+  <tr><th style="width:8%">方法</th><th>路径</th><th>说明</th></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/agent/status</td><td>所有Agent状态列表</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/agent/status/{name}</td><td>指定Agent状态详情</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/agent/events</td><td>Agent事件日志（分页）</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/agent/messages</td><td>Agent消息流记录</td></tr>
+</table>
+
+<h2>5.7 其他接口</h2>
+<table>
+  <tr><th style="width:8%">方法</th><th>路径</th><th>说明</th></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/classes</td><td>班级列表</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/students</td><td>学生列表（按班级筛选）</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/api/v1/curriculum</td><td>课标数据列表（按学科筛选）</td></tr>
+  <tr><td><span class="endpoint-method method-post">POST</span></td><td>/api/v1/curriculum/import</td><td>导入课标数据</td></tr>
+  <tr><td><span class="endpoint-method method-get">GET</span></td><td>/health</td><td>服务健康检查</td></tr>
+</table>
+
+<!-- ═══════════ 第六章 数据库设计 ═══════════ -->
+<h1 id="ch6">第六章 数据库设计</h1>
+
+<h2>6.1 ER关系简述</h2>
+
+<div class="arch-box">
+  <p style="text-indent:0;font-family:monospace;font-size:10pt;line-height:2.2;">
+    Project ──1:N──→ Courseware ──1:N──→ Slide ──N:M──→ KnowledgePoint<br>
+    Project ──1:N──→ Homework ──1:N──→ HomeworkItem ──N:M──→ KnowledgePoint (via Q-Matrix)<br>
+    HomeworkItem ──1:N──→ AnswerRecord<br>
+    Project ──1:N──→ CDMSession ──1:N──→ CDMResult<br>
+    CDMResult ──1:N──→ RootCause ──N:1──→ KnowledgePoint<br>
+    CDMResult ──1:1──→ LearningPath<br>
+    KnowledgePoint ──N:M──→ KnowledgePoint (prerequisites)
+  </p>
+</div>
+
+<h2>6.2 核心表详细说明</h2>
+
+<h3>knowledge_points（知识点表）</h3>
+<table>
+  <tr><th>列名</th><th>类型</th><th>说明</th></tr>
+  <tr><td>id</td><td>UUID</td><td>主键</td></tr>
+  <tr><td>code</td><td>VARCHAR(50)</td><td>编码（如 GEO_CLIMATE_001）</td></tr>
+  <tr><td>name</td><td>VARCHAR(200)</td><td>名称</td></tr>
+  <tr><td>level</td><td>INTEGER</td><td>层级 0-5（学科→考法）</td></tr>
+  <tr><td>parent_id</td><td>UUID FK</td><td>父节点（自引用）</td></tr>
+  <tr><td>subject</td><td>VARCHAR(50)</td><td>所属学科</td></tr>
+  <tr><td>description</td><td>TEXT</td><td>描述</td></tr>
+  <tr><td>cognitive_level</td><td>VARCHAR(50)</td><td>认知层次（识记/理解/应用/综合）</td></tr>
+</table>
+
+<h3>cdm_results（诊断结果表）</h3>
+<table>
+  <tr><th>列名</th><th>类型</th><th>说明</th></tr>
+  <tr><td>id</td><td>UUID</td><td>主键</td></tr>
+  <tr><td>session_id</td><td>UUID FK</td><td>诊断会话ID</td></tr>
+  <tr><td>student_id</td><td>VARCHAR(100)</td><td>学生ID</td></tr>
+  <tr><td>kp_id</td><td>UUID FK</td><td>知识点ID</td></tr>
+  <tr><td>P_mastery</td><td>FLOAT</td><td>后验掌握概率 (0~1)</td></tr>
+</table>
+
+<h3>cdm_sessions（诊断会话表）</h3>
+<table>
+  <tr><th>列名</th><th>类型</th><th>说明</th></tr>
+  <tr><td>id</td><td>UUID</td><td>主键</td></tr>
+  <tr><td>homework_id</td><td>UUID FK</td><td>关联作业</td></tr>
+  <tr><td>model_type</td><td>VARCHAR(20)</td><td>DINA | DINO</td></tr>
+  <tr><td>status</td><td>VARCHAR(20)</td><td>running | completed | failed</td></tr>
+  <tr><td>iterations</td><td>INTEGER</td><td>EM迭代次数</td></tr>
+  <tr><td>converged</td><td>BOOLEAN</td><td>是否收敛</td></tr>
+  <tr><td>AIC</td><td>FLOAT</td><td>AIC拟合指标</td></tr>
+  <tr><td>BIC</td><td>FLOAT</td><td>BIC拟合指标</td></tr>
+</table>
+
+<h3>q_matrix（Q矩阵表）</h3>
+<table>
+  <tr><th>列名</th><th>类型</th><th>说明</th></tr>
+  <tr><td>id</td><td>UUID</td><td>主键</td></tr>
+  <tr><td>item_id</td><td>UUID FK</td><td>题目ID</td></tr>
+  <tr><td>kp_id</td><td>UUID FK</td><td>考察的知识点ID</td></tr>
+  <tr><td>value</td><td>INTEGER</td><td>0: 不考察; 1: 考察</td></tr>
+  <tr><td>confirmed</td><td>BOOLEAN</td><td>是否经教师确认</td></tr>
+</table>
+
+<!-- ═══════════ 第七章 核心算法实现 ═══════════ -->
+<h1 id="ch7">第七章 核心算法实现</h1>
+
+<h2>7.1 DINA模型响应概率</h2>
+<p>DINA模型定义学生 i 答对题目 j 的概率为：</p>
+<p style="text-align:center;font-size:12pt;">
+  <strong>P(R<sub>ij</sub> = 1 | α<sub>i</sub>) = (1 − s<sub>j</sub>)<sup>η<sub>ij</sub></sup> · g<sub>j</sub><sup>1 − η<sub>ij</sub></sup></strong>
+</p>
+<p>其中 <strong>η<sub>ij</sub> = Π<sub>k=1</sub><sup>K</sup> α<sub>ik</sub><sup>q<sub>jk</sub></sup></strong>，当学生掌握了题目考核的所有知识点时 η=1（反映为"理想掌握"），否则 η=0。</p>
+
+<h2>7.2 EM参数估计算法</h2>
+<p class="no-indent">伪代码：</p>
+<pre>
+输入: Q矩阵(M×K), 答题矩阵R(S×M), 最大迭代I_max
+输出: slip向量(s₁,...,s_M), guess向量(g₁,...,g_M), alpha后验
+
+初始化: sⱼ=0.2, gⱼ=0.2, 状态先验均匀分布
+
+for iter in 1..I_max:
+    # E步：计算后验
+    for each student i:
+        for each 可能状态 α ∈ {0,1}^K:
+            计算 P(α | Rᵢ) = P(Rᵢ | α) × P(α) / Σ P(Rᵢ | α′) × P(α′)
+
+    # 基于后验计算期望充分统计量
+    for each question j:
+        nⱼ₀₀ = Σᵢ Σ_{α:η=0} P(α|Rᵢ) × (1-Rᵢⱼ)  # η=0且答错
+        nⱼ₀₁ = Σᵢ Σ_{α:η=0} P(α|Rᵢ) × Rᵢⱼ       # η=0且答对
+        
+    # M步：更新参数
+    gⱼ = nⱼ₀₁ / (nⱼ₀₀ + nⱼ₀₁)
+    sⱼ = 1 - nⱼ₁₁ / (nⱼ₁₀ + nⱼ₁₁)
+
+    if max|param_new - param_old| < 1e-6: break
+</pre>
+
+<h2>7.3 蒙特卡洛EM（n_kp > 15）</h2>
+<p>当K>15时，2<sup>K</sup>超过32768，枚举所有状态不可行。降级策略：</p>
+<ul>
+  <li>从历史alpha后验分布中采样M=500个代表性状态</li>
+  <li>用采样状态近似E步积分：P(α | R) ≈ P(R | α) / Σ<sub>α′∈Sample</sub> P(R | α′)</li>
+  <li>降低迭代次数上限至5轮，平衡精度和性能</li>
+</ul>
+
+<h2>7.4 根因追溯算法</h2>
+<p class="no-indent">输入：学生i的alpha向量、知识图谱G、薄弱阈值θ_w（默认0.4）</p>
+<pre>
+对于每个 P_mastery(ik) < θ_w 的薄弱知识点 k:
+    candidates = []
+    沿G中的前驱链追溯：
+        对每个前驱节点 p：
+            score_p = depth(p) × (1 - P_mastery(ip))
+            candidates.append({node: p, score: score_p})
+    
+    root_cause = argmax(candidates.score)  # 最深×最薄弱
+    构建从 root_cause 到 k 的追溯路径树
+    
+返回：每个薄弱知识点的根因节点 + 路径
+</pre>
+
+<h2>7.5 反事实推理</h2>
+<p>基于CDM参数化模型：假设学生i的知识状态从 α<sub>i</sub> 变为 α′<sub>i</sub>（补上某个知识点），重新计算所有知识点的P(掌握)，量化"如果补上X，Y的掌握率将从A%变为B%"。</p>
+
+<h2>7.6 遗忘曲线</h2>
+<p>基于Ebbinghaus指数衰减模型：<strong>M(t) = M<sub>0</sub> · e<sup>−λt</sup></strong></p>
+<ul>
+  <li>M₀：初始掌握率（诊断时）</li>
+  <li>λ：衰减率参数（由历史数据拟合）</li>
+  <li>半衰期 t<sub>1/2</sub> = ln(2) / λ（推荐复习时间）</li>
+</ul>
+
+<!-- ═══════════ 第八章 Agent系统设计 ═══════════ -->
+<h1 id="ch8">第八章 Agent系统设计</h1>
+
+<h2>8.1 AgentBus消息总线</h2>
+<p class="no-indent"><span class="file-path">文件：app/services/agent_bus.py</span></p>
+<p>AgentBus是Agent间通信的核心基础设施，采用发布-订阅模式：</p>
+<ul>
+  <li><strong>注册机制</strong>：每个Agent在初始化时向Bus注册，声明订阅的消息类型</li>
+  <li><strong>消息路由</strong>：Agent发送消息时指定类型，Bus根据注册表路由给订阅方</li>
+  <li><strong>事件日志</strong>：所有消息均持久化到 agent_events 表，用于监控和审计</li>
+</ul>
+
+<h2>8.2 消息流设计</h2>
+<table>
+  <tr><th>消息类型</th><th>发送方</th><th>接收方</th><th>触发条件</th></tr>
+  <tr><td>graph_updated</td><td>KnowledgeAgent</td><td>DiagnosisAgent</td><td>课件解析完成后知识图谱更新</td></tr>
+  <tr><td>diagnosis_completed</td><td>DiagnosisAgent</td><td>TracingAgent, TeachingAgent</td><td>CDM估计完成</td></tr>
+  <tr><td>trace_updated</td><td>TracingAgent</td><td>TeachingAgent</td><td>BKT追踪更新</td></tr>
+  <tr><td>teaching_plan_generated</td><td>TeachingAgent</td><td>DiagnosisAgent</td><td>教学方案生成</td></tr>
+  <tr><td>new_data_arrived</td><td>外部触发</td><td>EvolutionAgent</td><td>新答题数据到达</td></tr>
+  <tr><td>model_evolved</td><td>EvolutionAgent</td><td>全Agent</td><td>在线学习参数更新</td></tr>
+</table>
+
+<h2>8.3 Agent生命周期</h2>
+<ol>
+  <li><strong>初始化</strong>：Agent实例化 → 加载配置 → 订阅消息 → 设置事件处理器</li>
+  <li><strong>运行</strong>：监听消息 → 处理业务逻辑 → 发送结果消息</li>
+  <li><strong>空闲</strong>：无任务时进入等待状态</li>
+  <li><strong>异常</strong>：处理失败时记录错误日志，触发告警通知</li>
+  <li><strong>关闭</strong>：收到关闭信号 → 完成当前任务 → 保存状态 → 取消订阅</li>
+</ol>
+
+<!-- ═══════════ 第九章 测试与质量 ═══════════ -->
+<h1 id="ch9">第九章 测试与质量</h1>
+
+<h2>9.1 后端测试</h2>
+<table>
+  <tr><th style="width:30%">测试文件</th><th>测试内容</th></tr>
+  <tr><td>tests/test_dina.py</td><td>DINA模型：响应概率计算、EM收敛性、slip/guess参数恢复、蒙特卡洛模式、边界条件（全正确/全错误数据）</td></tr>
+  <tr><td>tests/test_api_core.py</td><td>核心API：项目管理CRUD、课件上传、作业创建、诊断流程端到端</td></tr>
+  <tr><td>tests/test_agent.py</td><td>Agent系统：注册/取消注册、消息发送接收、事件日志</td></tr>
+  <tr><td>tests/test_knowledge.py</td><td>知识图谱：层级树查询、前驱链追溯、课标导入</td></tr>
+</table>
+<p>总计：<strong>54个测试用例通过</strong>，7个慢速测试（蒙特卡洛采样、大数据集）在CI中跳过。</p>
+
+<h2>9.2 前端测试</h2>
+<table>
+  <tr><th>测试文件</th><th>用例数</th><th>内容</th></tr>
+  <tr><td>DataTable.test.tsx</td><td>3</td><td>渲染、搜索框显示/隐藏</td></tr>
+  <tr><td>CoreComponents.test.tsx</td><td>8</td><td>RootCauseTree（数据/空数据）、LearningPathTimeline、KnowledgeHierarchy、AgentStatusCard（正常/加载中）</td></tr>
+  <tr><td>ChartComponents.test.tsx</td><td>4</td><td>TrendChart、MasteryHeatmap、ForgettingCurve、MasteryTrajectory（均mock @ant-design/charts）</td></tr>
+  <tr><td>P1Components.test.tsx</td><td>9</td><td>ProjectSelector、StudentCard、ExamPointList、ExamMethodTag（4种类型）、DiagnosisReport（数据/空数据）、AgentMessageFlow（数据/空数据）</td></tr>
+</table>
+<p>总计：<strong>4个文件、24个测试用例、100%通过率</strong>。</p>
+
+<h2>9.3 类型安全</h2>
+<p>前端使用 TypeScript 严格模式，通过 <code>npx tsc --noEmit</code> 确保零编译错误。所有组件 Props、API 响应、Store 状态均有完整类型定义。</p>
+
+<!-- ═══════════ 第十章 部署架构 ═══════════ -->
+<h1 id="ch10">第十章 部署架构</h1>
+
+<h2>10.1 Docker Compose 编排</h2>
+<pre>
+                    ┌──────────────┐
+                    │   Browser    │
+                    └──────┬───────┘
+                           │ HTTP :5173
+                    ┌──────▼───────┐
+                    │  Nginx (:80) │  ← frontend container
+                    │  / → SPA     │
+                    │  /api/ →     │
+                    └──────┬───────┘
+                           │ proxy_pass
+                    ┌──────▼───────┐
+                    │  FastAPI     │  ← backend container
+                    │  :8003       │
+                    └──────┬───────┘
+                           │ SQL
+                    ┌──────▼───────┐
+                    │  PostgreSQL  │  ← postgres container
+                    │  :5432       │
+                    └──────────────┘
+</pre>
+
+<h2>10.2 健康检查策略</h2>
+<table>
+  <tr><th>服务</th><th>检查方式</th><th>间隔</th><th>超时</th><th>重试</th></tr>
+  <tr><td>postgres</td><td>pg_isready -U postgres</td><td>10s</td><td>5s</td><td>5</td></tr>
+  <tr><td>backend</td><td>wget --spider /health</td><td>10s</td><td>5s</td><td>5</td></tr>
+  <tr><td>frontend</td><td>— （依赖backend健康）</td><td>—</td><td>—</td><td>—</td></tr>
+</table>
+
+<h2>10.3 启动依赖链</h2>
+<p>postgres（健康） → backend（健康） → frontend。通过 Docker Compose 的 <code>depends_on: condition: service_healthy</code> 保证启动顺序。</p>
+
+<div class="footer">
+  <p>知脉溯源 · 代码开发记录 v2.0.0</p>
+  <p>⚠ 本文档内容使用AI生成 | &copy; 2026 知脉溯源</p>
+</div>
+
+</body>
+</html>

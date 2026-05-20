@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>知脉溯源 — 3分钟演示视频演讲稿（PPT联动版）</title>
+<style>
+  @page { size: A4; margin: 2cm 2.2cm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 11pt; line-height: 1.8; color: rgba(0,0,0,0.85);
+  }
+  h1 { font-size: 22pt; color: #1677ff; border-bottom: 3px solid #1677ff; padding-bottom: 8px; margin: 32px 0 16px; page-break-before: always; }
+  h1:first-of-type { page-break-before: auto; }
+  h2 { font-size: 15pt; color: #0958d9; margin: 24px 0 12px; padding-left: 8px; border-left: 4px solid #1677ff; }
+  h3 { font-size: 12pt; color: rgba(0,0,0,0.85); margin: 18px 0 8px; }
+  p { margin: 8px 0; text-indent: 2em; }
+  p.no-indent { text-indent: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt; }
+  th { background: #1677ff; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; }
+  td { border: 1px solid #d9d9d9; padding: 6px 10px; vertical-align: top; }
+  tr:nth-child(even) td { background: #f5f5f5; }
+  code { background: #f0f5ff; padding: 2px 6px; border-radius: 3px; font-family: monospace; font-size: 9.5pt; color: #0958d9; }
+  ul, ol { margin: 8px 0 8px 2em; }
+  li { margin: 4px 0; }
+  .cover { text-align: center; padding: 100px 0 60px; }
+  .cover h1 { font-size: 32pt; border: none; margin-bottom: 12px; }
+  .cover .subtitle { font-size: 14pt; color: rgba(0,0,0,0.55); margin-bottom: 40px; }
+  .cover .meta { font-size: 10pt; color: rgba(0,0,0,0.45); margin-top: 60px; }
+  .cover .ai-badge { display: inline-block; background: #722ed1; color: #fff; padding: 4px 14px; border-radius: 12px; font-size: 9pt; margin-top: 20px; }
+  .note { background: #fff7e6; border-left: 4px solid #faad14; padding: 10px 14px; margin: 14px 0; border-radius: 4px; font-size: 10pt; }
+  .tip { background: #f0f5ff; border-left: 4px solid #1677ff; padding: 10px 14px; margin: 14px 0; border-radius: 4px; font-size: 10pt; }
+
+  .segment { margin: 20px 0; padding: 16px 20px; border-left: 5px solid #1677ff; background: #f0f5ff; border-radius: 6px; }
+  .segment .time { font-size: 9pt; color: #1677ff; font-weight: 700; }
+  .segment .ppt { font-size: 9pt; color: #722ed1; font-weight: 700; margin-left: 12px; }
+  .segment .say { background: #fff; padding: 12px 16px; border-radius: 6px; margin: 8px 0; line-height: 1.9; font-size: 10.5pt; }
+  .segment .show { background: #1a1a2e; color: #52c41a; padding: 10px 16px; border-radius: 6px; margin: 8px 0; font-size: 9.5pt; line-height: 1.7; }
+  .segment .show::before { content: "📺 屏幕展示 → "; color: #faad14; font-weight: 700; }
+  .segment .note-inline { font-size: 9pt; color: rgba(0,0,0,0.5); margin-top: 6px; }
+
+  .timeline { text-align: center; margin: 16px 0; }
+  .timeline-bar { display: flex; height: 24px; border-radius: 12px; overflow: hidden; margin: 8px 0; }
+  .timeline-bar div { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 8pt; font-weight: 700; }
+  .tl-s1 { background: #722ed1; width: 3%; }
+  .tl-s2 { background: #fa8c16; width: 13%; }
+  .tl-s3 { background: #1677ff; width: 15%; }
+  .tl-s4 { background: #0958d9; width: 16%; }
+  .tl-s5 { background: #52c41a; width: 16%; }
+  .tl-s6 { background: #2f54eb; width: 13%; }
+  .tl-s7 { background: #13c2c2; width: 8%; }
+  .tl-s8 { background: #eb2f96; width: 8%; }
+  .tl-s9 { background: #722ed1; width: 8%; }
+
+  .footer { text-align: center; font-size: 8pt; color: rgba(0,0,0,0.35); margin-top: 40px; padding-top: 16px; border-top: 1px solid #d9d9d9; }
+
+  .ppt-table td:first-child { font-weight: 700; color: #1677ff; white-space: nowrap; }
+  .ppt-table td:nth-child(2) { font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ 封面 ═══════════ -->
+<div class="cover">
+  <h1>知脉溯源</h1>
+  <p class="subtitle">3分钟产品演示视频 · 演讲稿 &amp; PPT联动方案</p>
+  <p style="font-size:11pt;color:rgba(0,0,0,0.55);">时长：约3分钟 | 2026年5月</p>
+  <div class="ai-badge">⚠ 内容使用AI生成</div>
+  <p class="meta">
+    产品：知脉溯源 — CDM驱动的知识状态诊断与根因追溯系统<br>
+    主题：从经验诊断到数据诊断 · 从表面问题到根本原因<br>
+    演示方式：PPT翻页 + 屏幕录制 + 旁白配音
+  </p>
+</div>
+
+<!-- ═══════════ PPT ↔ 时间轴总览 ═══════════ -->
+<h1>PPT ↔ 演讲稿联动时间轴（3分钟）</h1>
+
+<div class="timeline">
+  <div class="timeline-bar">
+    <div class="tl-s1">P1</div>
+    <div class="tl-s2">P2 痛点 25s</div>
+    <div class="tl-s3">P3 架构 25s</div>
+    <div class="tl-s4">P4 功能一 30s</div>
+    <div class="tl-s5">P5 功能二 30s</div>
+    <div class="tl-s6">P6 技术 25s</div>
+    <div class="tl-s7">P7</div>
+    <div class="tl-s8">P8</div>
+    <div class="tl-s9">P9</div>
+  </div>
+</div>
+
+<table class="ppt-table">
+  <tr><th style="width:5%">PPT</th><th style="width:15%">时间</th><th style="width:22%">环节</th><th>内容要点</th></tr>
+  <tr><td>P1</td><td>0:00-0:05</td><td>封面展示</td><td>知脉溯源 封面 + 标题：CDM驱动的知识状态诊断与根因追溯系统</td></tr>
+  <tr><td>P2</td><td>0:05-0:30</td><td>痛点引入</td><td>传统教学三大痛点：凭经验判断、无法精确定位、无从追溯根因</td></tr>
+  <tr><td>P3</td><td>0:30-0:55</td><td>产品核心架构</td><td>4大模块：知识中心、作业中心、诊断中心、教学决策</td></tr>
+  <tr><td>P4</td><td>0:55-1:25</td><td>功能演示一</td><td>知识中心：6层图谱 + 目录树 + 关系图谱 | 作业中心：Q矩阵 + 答题数据</td></tr>
+  <tr><td>P5</td><td>1:25-1:55</td><td>功能演示二</td><td>诊断中心：DINA模型班级/学生诊断 | 教学决策：根因追溯 + 反事实预测</td></tr>
+  <tr><td>P6</td><td>1:55-2:20</td><td>技术亮点</td><td>5-Agent协作 + DINA/EM算法 + 6层知识图谱 + 全栈架构</td></tr>
+  <tr><td>P7</td><td>2:20-2:35</td><td>应用场景一</td><td>班级维度诊断：掌握率热力图 + 薄弱知识点排行</td></tr>
+  <tr><td>P8</td><td>2:35-2:50</td><td>应用场景二</td><td>个体精准干预：学生知识状态 + 根因追溯 + 个性化学习路径</td></tr>
+  <tr><td>P9</td><td>2:50-3:00</td><td>收尾 + 感谢</td><td>价值主张：三个转变 → 谢谢</td></tr>
+</table>
+
+<!-- ═══════════ 分段演讲稿 ═══════════ -->
+<h1>分段演讲稿（与PPT逐页对应）</h1>
+
+<!-- PPT SLIDE 1 + 2：封面 → 痛点 -->
+<div class="segment">
+  <p class="time">⏱ 0:00 — 0:05</p>
+  <p class="ppt">📄 PPT Slide 1 → 封面「知脉溯源」</p>
+  <div class="say">
+    各位评委、老师好。我今天带来的作品是——<strong>知脉溯源</strong>：一套CDM驱动的知识状态诊断与根因追溯系统。
+  </div>
+  <div class="show">
+    屏幕：PPT Slide 1 封面全屏展示 —— 知脉溯源（标题大字居中），CDM驱动的知识状态诊断与根因追溯系统（副标题）
+  </div>
+  <p class="note-inline">💬 语速：正常，标题字读出后停顿0.5秒让观众消化 | 🔄 PPT翻页：0:05 切换到 Slide 2</p>
+</div>
+
+<div class="segment">
+  <p class="time">⏱ 0:05 — 0:30</p>
+  <p class="ppt">📄 PPT Slide 2 → 「教学痛点」</p>
+  <div class="say">
+    在日常教学中，我们反复遇到这样的困境：<br><br>
+    考试结束，成绩出来了——我们知道哪个班分数低、哪些学生不及格。但<strong>致命的问题是：具体是哪个知识点没掌握？全班共性的薄弱点在哪里？每个学生没考好的根本原因是什么？</strong><br><br>
+    这些问题，过去只能凭老师的主观经验去猜测。而知脉溯源要做的事，就是把这件事<strong>从"凭经验猜"变成"靠数据算"</strong>——用CDM认知诊断模型，从学生的答题数据中，客观推断出每个学生的真实知识状态。
+  </div>
+  <div class="show">
+    屏幕：PPT Slide 2 全屏 —— 痛点三问逐条高亮动画显示：❓ 哪个知识点没掌握？ ❓ 全班共性薄弱点？ ❓ 根本原因是什么？
+  </div>
+  <p class="note-inline">💬 语速：正常节奏，"致命的问题是"放慢；三个问句每句后停顿0.3秒 | 🔄 PPT翻页：0:30 切换到 Slide 3</p>
+</div>
+
+<!-- PPT SLIDE 3：产品核心架构 -->
+<div class="segment">
+  <p class="time">⏱ 0:30 — 0:55</p>
+  <p class="ppt">📄 PPT Slide 3 → 「产品核心架构」4大模块</p>
+  <div class="say">
+    来看我们怎么解决这个问题。知脉溯源围绕"诊断"这个核心，构建了四大功能模块：<br><br>
+    <strong>第一，知识中心。</strong>我们构建了6层知识图谱——从学科到主题、到单元、到知识点、到考点、再到考法，每层之间有前驱和后继的关系。<br><br>
+    <strong>第二，作业中心。</strong>管理题目和答题数据，核心是Q矩阵——也就是标记每道题考察了哪些知识点，支持可视化编辑。<br><br>
+    <strong>第三，诊断中心。</strong>基于DINA认知诊断模型和EM算法，从学生答题数据中估计出每个学生的知识状态。<br><br>
+    <strong>第四，教学决策。</strong>基于诊断结果，进行根因追溯、反事实预测，最后生成个性化学习路径。
+  </div>
+  <div class="show">
+    屏幕：PPT Slide 3 全屏 —— 4个要点依次入场动画：①知识中心 ②作业中心 ③诊断中心 ④教学决策
+  </div>
+  <p class="note-inline">💬 语速：正常偏快，"第一、第二……"四点的间距均匀，每点2-3秒 | 🔄 PPT翻页：0:55 切换到 Slide 4</p>
+</div>
+
+<!-- PPT SLIDE 4：功能演示一 -->
+<div class="segment">
+  <p class="time">⏱ 0:55 — 1:25</p>
+  <p class="ppt">📄 PPT Slide 4 → 「一、知识中心与作业联动」+ 系统截图</p>
+  <div class="say">
+    进入实际演示。左边是PPT，右边是系统实际操作画面。<br><br>
+    <strong>知识中心</strong>采用三栏布局——左侧是目录树，按学科→主题→单元→知识点层级管理，支持搜索和右键操作。中间是知识图谱，展示前驱-后继关系网络，双击任意知识点节点就能查看追溯路径和影响范围。右侧是详情面板。<br><br>
+    <strong>作业中心</strong>的核心是Q矩阵编辑器——每一行是一道题，每一列是一个知识点，点击单元格就能切换标记√或○，一目了然地看到每道题考察了什么。<br><br>
+    知识管理和作业在这里实现了联动：选中一个知识点，就能看到关联的题目和学生的作答情况。
+  </div>
+  <div class="show">
+    屏幕：左半屏 = PPT Slide 4（左上标题"知识中心与作业联动"，下方4条要点文字）；右半屏 = 浏览器实际操作 → 知识中心三栏布局（目录树hover展开 + 知识图谱节点高亮 + Q矩阵编辑器点击切换√/○）
+  </div>
+  <p class="note-inline">💬 语速：正常偏快，配合右侧实际操作画面 | 🔄 PPT翻页：1:25 切换到 Slide 5</p>
+</div>
+
+<!-- PPT SLIDE 5：功能演示二 -->
+<div class="segment">
+  <p class="time">⏱ 1:25 — 1:55</p>
+  <p class="ppt">📄 PPT Slide 5 → 「二、CDM诊断与教学决策」+ 系统截图</p>
+  <div class="say">
+    接下来是核心环节——<strong>诊断与决策</strong>。<br><br>
+    在诊断中心，选择作业后点击"运行诊断"，后台启动<strong>DINA模型和EM算法</strong>进行参数估计。几秒钟后结果就出来了：班级平均掌握率、<strong>掌握率热力图</strong>——红色代表薄弱、绿色代表掌握，每个学生在每个知识点上的情况一清二楚。旁边还有薄弱知识点排行榜。<br><br>
+    但这只是"知道了问题"，更重要的是——<strong>"找到根源"</strong>。系统自动沿知识图谱的前驱路径向上追溯，生成<strong>根因追溯树</strong>：红色标注的节点就是导致当前薄弱的根本原因。还能做<strong>反事实预测</strong>——比如补上气压梯度这个基础概念后，大气运动的掌握率就会从25%提升到68%。
+  </div>
+  <div class="show">
+    屏幕：左半屏 = PPT Slide 5；右半屏 = 浏览器操作 → 诊断中心点击"运行诊断" → 热力图出现（红绿渐变） → 根因追溯树（红色节点脉动） → 反事实预测面板（25%→68%箭头动画）
+  </div>
+  <p class="note-inline">💬 语速：前段正常，"找到根源"处放慢，"25%→68%"加重语气 | 🔄 PPT翻页：1:55 切换到 Slide 6</p>
+</div>
+
+<!-- PPT SLIDE 6：技术亮点 -->
+<div class="segment">
+  <p class="time">⏱ 1:55 — 2:20</p>
+  <p class="ppt">📄 PPT Slide 6 → 「技术亮点」4大要点</p>
+  <div class="say">
+    简要介绍技术架构。<br><br>
+    <strong>引擎核心是5个自治Agent</strong>——诊断Agent负责CDM参数估计，知识Agent管理6层图谱，追溯Agent提供遗忘曲线和时间趋势分析，教学Agent生成个性化学习路径，进化Agent持续优化模型参数。它们通过<strong>AgentBus消息总线</strong>实时联动——比如诊断完成后，自动触发追溯和教学分析。<br><br>
+    <strong>算法层面</strong>：DINA模型 + EM期望最大化算法，从答题数据中客观估计Slip参数（粗心概率）、Guess参数（猜测概率）和每个学生的知识状态α向量。<br><br>
+    前端React 18 + Ant Design 5，后端FastAPI，数据库PostgreSQL，支持Docker Compose一键部署。
+  </div>
+  <div class="show">
+    屏幕：PPT Slide 6 全屏 —— 4个要点依次入场：①5-Agent协作（节点+AgentBus中心连线动画）②DINA+EM ③6层知识图谱 ④全栈技术栈图标（React+FastAPI+PostgreSQL+Docker）
+  </div>
+  <p class="note-inline">💬 语速：加快，技术部分点到为止，重点强调AgentBus联动 | 🔄 PPT翻页：2:20 切换到 Slide 7</p>
+</div>
+
+<!-- PPT SLIDE 7：应用场景一 -->
+<div class="segment">
+  <p class="time">⏱ 2:20 — 2:35</p>
+  <p class="ppt">📄 PPT Slide 7 → 「一、班级维度诊断」+ 系统截图</p>
+  <div class="say">
+    来看实际应用效果。<strong>在班级维度上</strong>：每个班级都能看到掌握率概览卡片、热力图和薄弱知识点排行榜。教研组可以据此精确制定教学计划——不再是"这个班整体不行"的模糊判断，而是精确到"62%的学生在因式分解这个知识点上掌握率低于40%"。<br><br>
+    CDM参数表还揭示了题目本身的Slip率和Guess率——帮助老师识别哪些题出得好、哪些题需要修改。
+  </div>
+  <div class="show">
+    屏幕：PPT Slide 7 + 系统画面 → 诊断中心班级Tab → 掌握率热力图鼠标hover红色格子 → 点击"薄弱知识点排行" → CDM参数表
+  </div>
+  <p class="note-inline">💬 语速：正常，"百分之62"和"百分之40"加重 | 🔄 PPT翻页：2:35 切换到 Slide 8</p>
+</div>
+
+<!-- PPT SLIDE 8：应用场景二 -->
+<div class="segment">
+  <p class="time">⏱ 2:35 — 2:50</p>
+  <p class="ppt">📄 PPT Slide 8 → 「二、个体精准干预」+ 系统截图</p>
+  <div class="say">
+    <strong>在学生维度上</strong>：选择任意学生，系统展示每个知识点的掌握概率。关键的是——点击薄弱知识点，就能看到<strong>根因追溯路径</strong>，告诉你这个学生之所以不会"求根公式"，根本上是因为连"因式分解"都没掌握。<br><br>
+    教学Agent基于α向量自动生成<strong>个性化学习路径</strong>，标注了每步预计用时和推荐资源。整个过程，5个Agent的工作状态都在右侧面板实时可见。
+  </div>
+  <div class="show">
+    屏幕：PPT Slide 8 + 系统画面 → 学生诊断Tab → 选学生 → 知识点掌握率标签 → 根因追溯树展开 → 学习路径时间线 → Agent监控面板
+  </div>
+  <p class="note-inline">💬 语速：正常，"根本上是"放慢强调 | 🔄 PPT翻页：2:50 切换到 Slide 9</p>
+</div>
+
+<!-- PPT SLIDE 9：收尾 -->
+<div class="segment">
+  <p class="time">⏱ 2:50 — 3:00</p>
+  <p class="ppt">📄 PPT Slide 9 → 「谢谢！」</p>
+  <div class="say">
+    最后总结，知脉溯源实现了三个关键转变：<br><br>
+    <strong>第一，从经验诊断到数据诊断。</strong>不再凭感觉判断，而是通过CDM模型算出精确的掌握概率。<br>
+    <strong>第二，从表面问题到根本原因。</strong>沿知识图谱追溯，找到最深层的知识缺口。<br>
+    <strong>第三，从反应式教学到预测式教学。</strong>通过反事实推理，量化补课收益；通过遗忘曲线，预判复习时机。<br><br>
+    这是一套完整的、可落地的教育智能化解决方案。<br><br>
+    <strong>感谢各位评委、老师的观看！</strong>
+  </div>
+  <div class="show">
+    屏幕：PPT Slide 9 全屏 —— 「谢谢！」大字居中 → 底部淡入副标题：「知脉溯源 — 让每一个学生的知识盲点都有据可循」
+  </div>
+  <p class="note-inline">💬 语速：三个"从...到..."每句后停顿0.5秒；最后"感谢"语气诚恳有力</p>
+</div>
+
+<!-- ═══════════ 拍摄 & 制作建议 ═══════════ -->
+<h1>拍摄 &amp; 制作建议</h1>
+
+<h2>画面方案</h2>
+<table>
+  <tr><th style="width:18%">建议</th><th>说明</th></tr>
+  <tr><td>画面布局</td><td>PPT讲解段（P1-P3、P6、P9）：全屏PPT；功能演示段（P4、P5、P7、P8）：左半屏PPT + 右半屏浏览器录制</td></tr>
+  <tr><td>PPT动画</td><td>每个Slide内采用"逐条入场"动画（Appear/Fade），避免一次性展示全部内容，与旁白节奏同步</td></tr>
+  <tr><td>鼠标指示</td><td>使用鼠标高亮插件（如Cursor Highlighter），hover时显示黄圈，点击时显示红圈扩散</td></tr>
+  <tr><td>缩放特效</td><td>关键数据展示时（热力图hover、根因树节点、"25%→68%"数字对比），局部放大200%</td></tr>
+  <tr><td>字幕</td><td>底部中文字幕，关键术语（DINA、EM、Q矩阵、AgentBus）附带英文标注</td></tr>
+</table>
+
+<h2>音频建议</h2>
+<table>
+  <tr><th style="width:18%">建议</th><th>说明</th></tr>
+  <tr><td>配音方式</td><td>真人录音（推荐）或高质量TTS（如Azure语音），语调平稳但有关键词重音</td></tr>
+  <tr><td>背景音乐</td><td>轻科技感纯音乐，音量控制在-20dB以下，以不压住人声为准</td></tr>
+  <tr><td>音效</td><td>PPT切换加轻柔"whoosh"过渡音；关键数据出现加"tick"提示音；AgentBus连线动画加电子脉冲音</td></tr>
+</table>
+
+<h2>PPT演示节奏控制</h2>
+<table>
+  <tr><th style="width:25%">PPT翻页时机</th><th>触发条件</th><th>旁白提示</th></tr>
+  <tr><td>0:00 P1→显示</td><td>视频开始即显示封面</td><td>"我今天带来的作品是——知脉溯源"</td></tr>
+  <tr><td>0:05 P1→P2</td><td>"靠数据算"落音后</td><td>"……从'凭经验猜'变成'靠数据算'"</td></tr>
+  <tr><td>0:30 P2→P3</td><td>"构建了四大功能模块"之前</td><td>"来看我们怎么解决这个问题"</td></tr>
+  <tr><td>0:55 P3→P4</td><td>"实际操作画面"之前</td><td>"进入实际演示"</td></tr>
+  <tr><td>1:25 P4→P5</td><td>"核心环节"之前</td><td>"接下来是核心环节"</td></tr>
+  <tr><td>1:55 P5→P6</td><td>"技术架构"之前</td><td>"简要介绍技术架构"</td></tr>
+  <tr><td>2:20 P6→P7</td><td>"实际应用效果"之前</td><td>"来看实际应用效果"</td></tr>
+  <tr><td>2:35 P7→P8</td><td>"学生维度"之前</td><td>"在学生维度上"</td></tr>
+  <tr><td>2:50 P8→P9</td><td>总结段第一句同时</td><td>"最后总结"</td></tr>
+  <tr><td>3:00 P9→黑屏</td><td>"感谢"落音后1秒</td><td>"感谢各位评委、老师的观看！"</td></tr>
+</table>
+
+<h2>应急预案（时间控制）</h2>
+<table>
+  <tr><th style="width:18%">情况</th><th>应对</th></tr>
+  <tr><td>超时</td><td>技术亮点段（P6, 1:55-2:20）可压缩为快速过场，仅展示Panel不逐条讲解；应用场景段（P7+P8）可合并为15秒快速翻页</td></tr>
+  <tr><td>提前结束</td><td>收尾段可补充一个实际使用案例或数据对比（如"某学校使用后平均分提升X%"）</td></tr>
+  <tr><td>系统操作卡顿</td><td>功能演示段（P4+P5）提前录制操作视频作为备份（OBS录制），网络不畅时切换为录播画面</td></tr>
+  <tr><td>PPT动画延迟</td><td>如遇PPT动画卡顿，直接按"B"键黑屏，纯旁白过渡到下一环节</td></tr>
+</table>
+
+<h2>演示前检查清单</h2>
+<table>
+  <tr><th style="width:5%">#</th><th>确认项</th><th style="width:20%">状态</th></tr>
+  <tr><td>1</td><td>PPT文件「演示视频PPT_知脉溯源.pptx」已生成并测试可打开</td><td>☐</td></tr>
+  <tr><td>2</td><td>后端服务已启动（8003端口），AgentBus已初始化5个Agent</td><td>☐</td></tr>
+  <tr><td>3</td><td>前端服务已启动（5173/5175端口）</td><td>☐</td></tr>
+  <tr><td>4</td><td>浏览器已打开并登录，清空缓存避免干扰</td><td>☐</td></tr>
+  <tr><td>5</td><td>已创建演示项目（含学科、年级）</td><td>☐</td></tr>
+  <tr><td>6</td><td>已上传至少1份课件且解析完成</td><td>☐</td></tr>
+  <tr><td>7</td><td>已创建至少1个作业（含题目+Q矩阵+学生答题数据）</td><td>☐</td></tr>
+  <tr><td>8</td><td>已执行一次CDM诊断（确保结果缓存可用）</td><td>☐</td></tr>
+  <tr><td>9</td><td>诊断结果中有明显的薄弱知识点（红色标注，用于演示根因追溯）</td><td>☐</td></tr>
+  <tr><td>10</td><td>知识图谱中有前驱-后继关系数据（用于演示关系图谱和追溯）</td><td>☐</td></tr>
+  <tr><td>11</td><td>话筒/录音设备已测试，音量正常</td><td>☐</td></tr>
+  <tr><td>12</td><td>OBS或录屏软件已就绪（如需备份录播）</td><td>☐</td></tr>
+</table>
+
+<div class="footer">
+  <p>知脉溯源 · 3分钟演示视频演讲稿 v2.0.0（PPT联动版）</p>
+  <p>⚠ 本文档内容使用AI生成 | 配套PPT：演示视频PPT_知脉溯源.pptx</p>
+</div>
+
+</body>
+</html>

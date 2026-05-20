@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+__pycache__/
+.venv/
+venv/
+*.pyc
+*.pyo
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# IDE
+.idea/
+.vscode/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database
+*.db
+*.sqlite3
+
+# Uploads / User data
+backend/uploads/
+
+# Temporary scripts
+dump_template.py
+analyze_ppt.py
+generate_ppt.py
+verify_ppt.py
+build_v2.py

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>知脉溯源 — 安装手册</title>
+<style>
+  @page { size: A4; margin: 2cm 2.2cm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 11pt; line-height: 1.8; color: rgba(0,0,0,0.85);
+  }
+  h1 { font-size: 22pt; color: #1677ff; border-bottom: 3px solid #1677ff; padding-bottom: 8px; margin: 32px 0 16px; page-break-before: always; }
+  h1:first-of-type { page-break-before: auto; }
+  h2 { font-size: 15pt; color: #0958d9; margin: 24px 0 12px; padding-left: 8px; border-left: 4px solid #1677ff; }
+  h3 { font-size: 12pt; color: rgba(0,0,0,0.85); margin: 18px 0 8px; }
+  p { margin: 8px 0; text-indent: 2em; }
+  p.no-indent { text-indent: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt; }
+  th { background: #1677ff; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; }
+  td { border: 1px solid #d9d9d9; padding: 6px 10px; }
+  tr:nth-child(even) td { background: #f5f5f5; }
+  code { background: #f0f5ff; padding: 2px 6px; border-radius: 3px; font-family: "Cascadia Code", "Fira Code", Consolas, monospace; font-size: 9.5pt; color: #0958d9; }
+  pre { background: #1e1e2e; color: #cdd6f4; padding: 14px 18px; border-radius: 6px; overflow-x: auto; font-size: 9pt; line-height: 1.6; margin: 10px 0; }
+  ul, ol { margin: 8px 0 8px 2em; }
+  li { margin: 4px 0; }
+  .cover { text-align: center; padding: 100px 0 60px; }
+  .cover h1 { font-size: 32pt; border: none; margin-bottom: 12px; }
+  .cover .subtitle { font-size: 14pt; color: rgba(0,0,0,0.55); margin-bottom: 40px; }
+  .cover .meta { font-size: 10pt; color: rgba(0,0,0,0.45); margin-top: 60px; }
+  .cover .ai-badge { display: inline-block; background: #722ed1; color: #fff; padding: 4px 14px; border-radius: 12px; font-size: 9pt; margin-top: 20px; }
+  .note { background: #fff7e6; border-left: 4px solid #faad14; padding: 10px 14px; margin: 14px 0; border-radius: 4px; font-size: 10pt; }
+  .tip { background: #f0f5ff; border-left: 4px solid #1677ff; padding: 10px 14px; margin: 14px 0; border-radius: 4px; font-size: 10pt; }
+  .toc { background: #fafafa; border: 1px solid #d9d9d9; border-radius: 8px; padding: 18px 24px; margin: 20px 0; }
+  .toc h3 { margin-top: 0; }
+  .toc li { list-style: none; font-size: 10.5pt; }
+  .toc a { color: #1677ff; text-decoration: none; }
+  .footer { text-align: center; font-size: 8pt; color: rgba(0,0,0,0.35); margin-top: 40px; padding-top: 16px; border-top: 1px solid #d9d9d9; }
+  .env-table td:first-child { font-family: monospace; font-weight: 600; color: #0958d9; width: 28%; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ 封面 ═══════════ -->
+<div class="cover">
+  <h1>知脉溯源</h1>
+  <p class="subtitle">CDM驱动的知识状态诊断与根因追溯系统 · 安装手册</p>
+  <p style="font-size:11pt;color:rgba(0,0,0,0.55);">版本 2.0.0 | 2026年5月</p>
+  <div class="ai-badge">⚠ 内容使用AI生成</div>
+  <p class="meta">
+    支持 Docker Compose 容器化部署 和 手动部署 两种方式<br>
+    适用于 Windows / macOS / Linux 操作系统
+  </p>
+</div>
+
+<!-- ═══════════ 目录 ═══════════ -->
+<div class="toc">
+  <h3>📑 目录</h3>
+  <ol>
+    <li><a href="#ch1">第一章 系统要求</a></li>
+    <li><a href="#ch2">第二章 Docker Compose 部署（推荐）</a></li>
+    <li><a href="#ch3">第三章 手动部署 — 后端</a></li>
+    <li><a href="#ch4">第四章 手动部署 — 前端</a></li>
+    <li><a href="#ch5">第五章 数据库初始化</a></li>
+    <li><a href="#ch6">第六章 环境变量配置</a></li>
+    <li><a href="#ch7">第七章 健康检查与验证</a></li>
+    <li><a href="#ch8">第八章 常见安装问题</a></li>
+  </ol>
+</div>
+
+<!-- ═══════════ 第一章 ═══════════ -->
+<h1 id="ch1">第一章 系统要求</h1>
+
+<h2>1.1 硬件要求</h2>
+<table>
+  <tr><th style="width:25%">组件</th><th>最低配置</th><th>推荐配置</th></tr>
+  <tr><td>CPU</td><td>双核 2.0GHz</td><td>四核 3.0GHz+（EM算法为计算密集型）</td></tr>
+  <tr><td>内存</td><td>4 GB</td><td>8 GB+</td></tr>
+  <tr><td>磁盘空间</td><td>10 GB</td><td>20 GB+</td></tr>
+  <tr><td>网络</td><td>无特殊要求</td><td>—</td></tr>
+</table>
+
+<h2>1.2 软件要求</h2>
+<h3>Docker Compose 部署（推荐）</h3>
+<table>
+  <tr><th style="width:28%">软件</th><th>版本要求</th></tr>
+  <tr><td>Docker Engine</td><td>20.10+</td></tr>
+  <tr><td>Docker Compose</td><td>2.0+</td></tr>
+</table>
+
+<h3>手动部署</h3>
+<table class="env-table">
+  <tr><th>软件</th><th>版本要求</th><th>用途</th></tr>
+  <tr><td>Python</td><td>3.12+</td><td>后端运行时</td></tr>
+  <tr><td>Node.js</td><td>22+</td><td>前端构建工具</td></tr>
+  <tr><td>PostgreSQL</td><td>16+</td><td>数据库</td></tr>
+  <tr><td>npm / pnpm</td><td>9+ / 8+</td><td>前端包管理</td></tr>
+  <tr><td>Git</td><td>2.0+</td><td>版本管理（可选）</td></tr>
+</table>
+
+<div class="note">
+  <strong>⚠ 重要提示</strong>：EM算法和蒙特卡洛采样需要较强的CPU算力。如果知识点数超过15个，建议CPU在四核以上以确保诊断响应速度。
+</div>
+
+<!-- ═══════════ 第二章 Docker Compose ═══════════ -->
+<h1 id="ch2">第二章 Docker Compose 部署（推荐）</h1>
+
+<p>Docker Compose 一键部署将所有服务（PostgreSQL + 后端 + 前端）打包启动，无需手动配置依赖环境，是推荐的部署方式。</p>
+
+<h2>2.1 获取代码</h2>
+<pre>cd /path/to/project/root</pre>
+
+<h2>2.2 配置环境变量</h2>
+<p class="no-indent">确认项目根目录下的 <code>docker-compose.yml</code> 文件，默认配置可直接使用：</p>
+<pre># docker-compose.yml 关键配置
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: cognitive_diagnosis
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/cognitive_diagnosis
+    ports:
+      - "8003:8003"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"</pre>
+
+<h2>2.3 启动服务</h2>
+<pre># 构建镜像并启动所有服务（后台运行）
+docker-compose up -d --build
+
+# 查看服务状态
+docker-compose ps
+
+# 查看日志
+docker-compose logs -f</pre>
+
+<h2>2.4 停止服务</h2>
+<pre># 停止所有服务
+docker-compose down
+
+# 停止并删除数据卷（⚠ 会清空数据库）
+docker-compose down -v</pre>
+
+<h2>2.5 服务架构图</h2>
+<table>
+  <tr><th>服务名</th><th>端口</th><th>容器名</th><th>依赖</th></tr>
+  <tr><td>postgres</td><td>5432</td><td>cognitive_diagnosis_postgres</td><td>—</td></tr>
+  <tr><td>backend</td><td>8003</td><td>zhimai_backend</td><td>postgres（健康检查）</td></tr>
+  <tr><td>frontend</td><td>5173 (→80)</td><td>cognitive_diagnosis_frontend</td><td>backend（健康检查）</td></tr>
+</table>
+
+<!-- ═══════════ 第三章 手动部署后端 ═══════════ -->
+<h1 id="ch3">第三章 手动部署 — 后端</h1>
+
+<h2>3.1 环境准备</h2>
+<pre># 确认 Python 版本 ≥ 3.12
+python --version
+
+# 确认 PostgreSQL 已启动且可连接
+psql -U postgres -c "SELECT version();"</pre>
+
+<h2>3.2 创建数据库</h2>
+<pre>psql -U postgres
+CREATE DATABASE cognitive_diagnosis;
+\q</pre>
+
+<h2>3.3 安装依赖</h2>
+<pre>cd backend
+
+# 创建虚拟环境（推荐）
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# macOS / Linux
+source venv/bin/activate
+
+# 安装 Python 依赖
+pip install -r requirements.txt</pre>
+
+<h2>3.4 依赖清单</h2>
+<table>
+  <tr><th>包名</th><th>版本</th><th>用途</th></tr>
+  <tr><td>fastapi</td><td>0.111.0</td><td>API 框架</td></tr>
+  <tr><td>uvicorn[standard]</td><td>0.30.1</td><td>ASGI 服务器</td></tr>
+  <tr><td>sqlalchemy</td><td>2.0.31</td><td>ORM 数据库层</td></tr>
+  <tr><td>alembic</td><td>1.13.1</td><td>数据库迁移</td></tr>
+  <tr><td>numpy</td><td>1.26.4</td><td>矩阵运算（CDM核心）</td></tr>
+  <tr><td>scipy</td><td>1.14.0</td><td>优化算法（EM）</td></tr>
+  <tr><td>pandas</td><td>2.2.2</td><td>数据处理</td></tr>
+  <tr><td>python-pptx</td><td>0.6.23</td><td>PPT课件解析</td></tr>
+  <tr><td>pydantic</td><td>2.8.2</td><td>数据校验</td></tr>
+  <tr><td>pydantic-settings</td><td>2.3.4</td><td>配置管理</td></tr>
+  <tr><td>python-multipart</td><td>0.0.9</td><td>文件上传</td></tr>
+  <tr><td>httpx</td><td>0.27.0</td><td>HTTP客户端（测试）</td></tr>
+  <tr><td>pytest</td><td>9.0.3</td><td>测试框架</td></tr>
+  <tr><td>pytest-cov</td><td>7.1.0</td><td>测试覆盖率</td></tr>
+  <tr><td>psycopg2-binary</td><td>2.9.9</td><td>PostgreSQL驱动</td></tr>
+</table>
+
+<h2>3.5 启动后端</h2>
+<pre># 设置环境变量（或通过 .env 文件）
+export DATABASE_URL=postgresql://postgres:postgres@localhost:5432/cognitive_diagnosis
+export ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
+
+# 初始化数据库（首次运行）
+python init_data.py
+
+# 启动服务
+uvicorn app.main:app --host 0.0.0.0 --port 8003 --reload</pre>
+
+<div class="tip">
+  <strong>💡 提示</strong>：生产环境建议使用 <code>gunicorn + uvicorn workers</code> 代替单进程 <code>uvicorn</code>，以获得更好的并发性能。
+</div>
+
+<h2>3.6 Dockerfile 说明</h2>
+<p class="no-indent">后端Docker镜像采用Python 3.12-slim多阶段构建，关键步骤：</p>
+<pre>FROM python:3.12-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+EXPOSE 8003
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8003"]</pre>
+
+<!-- ═══════════ 第四章 手动部署前端 ═══════════ -->
+<h1 id="ch4">第四章 手动部署 — 前端</h1>
+
+<h2>4.1 环境准备</h2>
+<pre># 确认 Node.js 版本 ≥ 22
+node --version  # 期望 ≥ 22.0.0
+npm --version   # 期望 ≥ 9.0.0</pre>
+
+<h2>4.2 安装依赖</h2>
+<pre>cd frontend
+
+# 安装所有 npm 依赖
+npm install</pre>
+
+<h2>4.3 依赖清单</h2>
+<table>
+  <tr><th>包名</th><th>用途</th></tr>
+  <tr><td>react 18 + react-dom</td><td>前端框架</td></tr>
+  <tr><td>antd 5</td><td>UI组件库</td></tr>
+  <tr><td>@ant-design/icons</td><td>图标库</td></tr>
+  <tr><td>@ant-design/charts</td><td>图表库（趋势图、热力图等）</td></tr>
+  <tr><td>zustand</td><td>轻量级状态管理</td></tr>
+  <tr><td>react-router-dom 6</td><td>客户端路由</td></tr>
+  <tr><td>axios</td><td>HTTP 请求</td></tr>
+  <tr><td>dayjs</td><td>日期处理</td></tr>
+  <tr><td>@antv/g6</td><td>知识图谱可视化</td></tr>
+  <tr><td>vitest + @testing-library/react</td><td>测试框架（开发）</td></tr>
+</table>
+
+<h2>4.4 开发模式启动</h2>
+<pre># 确保前端根目录存在 .env 文件
+echo "VITE_API_BASE_URL=http://localhost:8003" > .env
+
+# 启动开发服务器（热重载）
+npm run dev</pre>
+
+<p>开发服务器默认监听 <code>http://localhost:5173</code>（若端口被占用，Vite 会自动切换至 <code>5174</code>、<code>5175</code> 等备用端口）。</p>
+
+<h2>4.5 生产构建</h2>
+<pre># 构建生产版本
+npm run build
+
+# 构建产物位于 dist/ 目录
+# 可用 nginx 或其他静态文件服务器托管</pre>
+
+<h2>4.6 Nginx 配置</h2>
+<p class="no-indent">前端Docker镜像使用Node 22构建 + Nginx托管的双阶段构建。nginx.conf配置：</p>
+<pre>server {
+  listen 80;
+  server_name localhost;
+
+  location / {
+    root /usr/share/nginx/html;
+    index index.html;
+    try_files $uri $uri/ /index.html;  # SPA 路由回退
+  }
+
+  location /api/ {
+    proxy_pass http://backend:8003/;   # API 反向代理
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+}</pre>
+
+<!-- ═══════════ 第五章 ═══════════ -->
+<h1 id="ch5">第五章 数据库初始化</h1>
+
+<h2>5.1 自动初始化</h2>
+<p>项目提供了 <code>backend/init_data.py</code> 脚本，在首次启动后自动完成以下操作：</p>
+<ol>
+  <li>创建所有数据库表（基于 SQLAlchemy ORM 模型）</li>
+  <li>导入课程标准数据（从 <code>backend/data/curriculum/</code> 目录）</li>
+  <li>创建示例项目和数据（可选，通过参数控制）</li>
+</ol>
+
+<h2>5.2 手动执行初始化</h2>
+<pre>cd backend
+python init_data.py</pre>
+
+<h2>5.3 数据库表结构概览</h2>
+<table>
+  <tr><th>表名</th><th>说明</th><th>关键字段</th></tr>
+  <tr><td>projects</td><td>项目表</td><td>id, name, subject, grade, status</td></tr>
+  <tr><td>coursewares</td><td>课件表</td><td>id, project_id, filename, parse_status</td></tr>
+  <tr><td>knowledge_points</td><td>知识点表</td><td>id, code, name, level, parent_id, subject</td></tr>
+  <tr><td>kp_prerequisites</td><td>前驱关系表</td><td>kp_id, prerequisite_id（多对多关联）</td></tr>
+  <tr><td>homeworks</td><td>作业表</td><td>id, project_id, title, class_id</td></tr>
+  <tr><td>homework_items</td><td>题目表</td><td>id, homework_id, index, type, max_score</td></tr>
+  <tr><td>q_matrix</td><td>Q矩阵表</td><td>id, item_id, kp_id, value(0/1), confirmed</td></tr>
+  <tr><td>answer_records</td><td>答题记录表</td><td>id, item_id, student_id, answer, score, is_correct</td></tr>
+  <tr><td>cdm_sessions</td><td>诊断会话表</td><td>id, homework_id, model_type, status, AIC, BIC</td></tr>
+  <tr><td>cdm_results</td><td>诊断结果表</td><td>id, session_id, student_id, kp_id, P_mastery</td></tr>
+  <tr><td>root_causes</td><td>根因追溯表</td><td>id, session_id, student_id, kp_id, root_cause_id, depth</td></tr>
+  <tr><td>learning_paths</td><td>学习路径表</td><td>id, session_id, student_id, path_json</td></tr>
+  <tr><td>agent_events</td><td>Agent事件日志</td><td>id, agent_name, event_type, payload, timestamp</td></tr>
+</table>
+
+<!-- ═══════════ 第六章 ═══════════ -->
+<h1 id="ch6">第六章 环境变量配置</h1>
+
+<h2>6.1 后端环境变量</h2>
+<table>
+  <tr><th style="width:28%">变量</th><th>默认值</th><th>说明</th></tr>
+  <tr><td>DATABASE_URL</td><td><code>sqlite:///./data/app.db</code></td><td>数据库连接串。Docker部署时使用PostgreSQL；本地开发可用SQLite</td></tr>
+  <tr><td>ALLOWED_ORIGINS</td><td><code>http://localhost:5173</code></td><td>CORS允许的前端来源，逗号分隔</td></tr>
+  <tr><td>HOST</td><td><code>0.0.0.0</code></td><td>服务绑定地址</td></tr>
+  <tr><td>PORT</td><td><code>8003</code></td><td>服务端口</td></tr>
+</table>
+
+<h2>6.2 前端环境变量</h2>
+<table>
+  <tr><th style="width:28%">变量</th><th>默认值</th><th>说明</th></tr>
+  <tr><td>VITE_API_BASE_URL</td><td><code>http://localhost:8003</code></td><td>后端API基地址</td></tr>
+</table>
+
+<div class="note">
+  <strong>⚠ 注意</strong>：前端环境变量以 <code>VITE_</code> 前缀命名，这是 Vite 构建工具的要求。修改后需重启前端开发服务器。
+</div>
+
+<!-- ═══════════ 第七章 ═══════════ -->
+<h1 id="ch7">第七章 健康检查与验证</h1>
+
+<h2>7.1 后端健康检查</h2>
+<pre># 方式1：浏览器访问
+http://localhost:8003/health
+
+# 方式2：命令行
+curl http://localhost:8003/health
+# 预期输出: {"status": "healthy", "timestamp": "..."}
+
+# 方式3：运行测试
+cd backend
+python -m pytest --tb=short -q -m "not slow"</pre>
+
+<h2>7.2 前端验证</h2>
+<pre># TypeScript 类型检查
+cd frontend
+npx tsc --noEmit
+# 预期输出: (无输出 = 0错误)
+
+# 运行组件测试
+npx vitest run --reporter=verbose
+# 预期: 4个测试文件 24个测试用例 全部通过</pre>
+
+<h2>7.3 完整验证清单</h2>
+<table>
+  <tr><th style="width:8%">#</th><th>验证项</th><th>预期结果</th><th style="width:12%">状态</th></tr>
+  <tr><td>1</td><td>PostgreSQL可连接</td><td>pg_isready 返回成功</td><td>☐</td></tr>
+  <tr><td>2</td><td>后端 /health 端点</td><td>HTTP 200 + healthy</td><td>☐</td></tr>
+  <tr><td>3</td><td>前端页面可访问</td><td>访问 localhost:5173 显示仪表盘</td><td>☐</td></tr>
+  <tr><td>4</td><td>API 代理正常</td><td>前端可正常请求后端数据</td><td>☐</td></tr>
+  <tr><td>5</td><td>数据库已初始化</td><td>数据库中存在 projects 表</td><td>☐</td></tr>
+  <tr><td>6</td><td>TS编译通过</td><td>npx tsc --noEmit 无错误</td><td>☐</td></tr>
+  <tr><td>7</td><td>后端测试通过</td><td>pytest 54+ passed</td><td>☐</td></tr>
+</table>
+
+<!-- ═══════════ 第八章 ═══════════ -->
+<h1 id="ch8">第八章 常见安装问题</h1>
+
+<h2>Q1：Docker启动失败，提示端口被占用</h2>
+<p>修改 <code>docker-compose.yml</code> 中的端口映射：</p>
+<pre>ports:
+  - "5800:80"   # 将前端端口改为 5800
+  - "18003:8003" # 将后端端口改为 18003</pre>
+
+<h2>Q2：后端启动时"数据库连接失败"</h2>
+<p>检查以下项：</p>
+<ul>
+  <li>PostgreSQL服务是否已启动（<code>pg_isready</code>）</li>
+  <li><code>DATABASE_URL</code> 环境变量是否正确（主机名、端口、用户名、密码）</li>
+  <li>数据库 <code>cognitive_diagnosis</code> 是否已创建</li>
+</ul>
+
+<h2>Q3：前端访问API报 CORS 错误</h2>
+<p>检查后端环境变量 <code>ALLOWED_ORIGINS</code> 是否包含前端的实际地址。例如：</p>
+<pre># 如果前端在 http://localhost:3000
+export ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173</pre>
+
+<h2>Q4：pip install 时报 psycopg2 编译错误（Windows）</h2>
+<p>使用二进制预编译版本：</p>
+<pre>pip install psycopg2-binary</pre>
+<p>或者将数据库切换为本地SQLite（修改 <code>DATABASE_URL</code> 为 <code>sqlite:///./data/app.db</code>）。</p>
+
+<h2>Q5：npm install 超时或失败</h2>
+<pre># 使用国内镜像源加速
+npm config set registry https://registry.npmmirror.com
+npm install
+
+# 或使用 pnpm（更快）
+npm install -g pnpm
+pnpm install</pre>
+
+<h2>Q6：如何重置数据库？</h2>
+<pre># Docker 环境
+docker-compose down -v
+docker-compose up -d --build
+
+# 手动环境（PostgreSQL）
+psql -U postgres -c "DROP DATABASE cognitive_diagnosis;"
+psql -U postgres -c "CREATE DATABASE cognitive_diagnosis;"
+cd backend && python init_data.py</pre>
+
+<h2>Q7：内存不足导致EM算法卡死</h2>
+<p>当同时诊断的知识点超过15个时，EM算法的状态空间呈指数级增长（2<sup>K</sup>）。系统在K>15时自动降级为蒙特卡洛EM。若仍出现卡死，请减少同时诊断的知识点数量或在设置中降低阈值。</p>
+
+<div class="footer">
+  <p>知脉溯源 · 安装手册 v2.0.0</p>
+  <p>⚠ 本文档内容使用AI生成 | &copy; 2026 知脉溯源</p>
+</div>
+
+</body>
+</html>
