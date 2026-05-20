@@ -5,6 +5,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from contextlib import asynccontextmanager
 from app.api.v1 import courseware, knowledge, homework, diagnosis, curriculum, agent, project
 from app.api.v1.class_api import router as class_router
+from app.api.v1.agent_config_api import router as agent_config_router
 from app.api.v1 import settings as settings_api
 from app.database import engine, SessionLocal
 from app.models.db_models import Base  # noqa: F401
@@ -67,6 +68,7 @@ app.include_router(curriculum.router)
 app.include_router(agent.router)
 app.include_router(project.router)
 app.include_router(class_router)
+app.include_router(agent_config_router)
 app.include_router(settings_api.router)
 
 # --- Static file serving ---

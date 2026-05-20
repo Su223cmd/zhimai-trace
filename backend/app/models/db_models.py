@@ -328,6 +328,8 @@ class SchoolClass(Base):
     name = Column(String(200), nullable=False)
     project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
     grade = Column(String(50))
+    student_ids = Column(JSON, default=list)
+    student_count = Column(Integer, default=0)
     created_at = Column(DateTime, default=datetime.now)
 
 
@@ -340,3 +342,33 @@ class StudentGroup(Base):
     student_ids = Column(JSON)
     focus_kps = Column(JSON)
     created_at = Column(DateTime, default=datetime.now)
+
+
+class AgentExecutionLog(Base):
+    __tablename__ = "agent_execution_logs"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    agent_name = Column(String(50), nullable=False, index=True)
+    task_type = Column(String(100), nullable=False)
+    status = Column(String(20), default="running")
+    input_summary = Column(JSON)
+    output_summary = Column(JSON)
+    steps = Column(JSON)
+    error_message = Column(Text)
+    duration_ms = Column(Integer)
+    context_type = Column(String(50))
+    context_id = Column(String(36))
+    started_at = Column(DateTime, default=datetime.now)
+    finished_at = Column(DateTime)
+
+
+class AgentConfig(Base):
+    __tablename__ = "agent_configs"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    agent_name = Column(String(50), nullable=False, index=True)
+    config_key = Column(String(100), nullable=False)
+    config_value = Column(String(500), nullable=False)
+    value_type = Column(String(20), default="string")
+    description = Column(String(500))
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)

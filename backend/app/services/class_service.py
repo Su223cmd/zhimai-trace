@@ -1,7 +1,8 @@
 import logging
 from typing import Optional
 from sqlalchemy.orm import Session
-from app.models.db_models import CDMParameter, StudentGroup, SchoolClass
+from sqlalchemy import func
+from app.models.db_models import CDMParameter, StudentGroup, SchoolClass, Homework, Courseware, Project
 import numpy as np
 
 logger = logging.getLogger(__name__)
@@ -175,3 +176,103 @@ def remove_student_from_group(db: Session, group_id: str, student_id: str) -> di
         db.commit()
 
     return {"status": "success", "group_id": str(group.id), "student_count": len(students)}
+
+
+def update_class_students(db: Session, class_id: str, student_ids: list[str]) -> dict:
+    cls_obj = db.query(SchoolClass).filter(SchoolClass.id == class_id).first()
+    if not cls_obj:
+        return {"status": "error", "message": "班级不存在"}
+
+    cls_obj.student_ids = student_ids
+    cls_obj.student_count = len(student_ids)
+    db.commit()
+
+    return {
+        "status": "success",
+        "class_id": str(cls_obj.id),
+        "student_count": cls_obj.student_count,
+    }
+
+
+def get_class_students(db: Session, class_id: str) -> dict:
+    cls_obj = db.query(SchoolClass).filter(SchoolClass.id == class_id).first()
+    if not cls_obj:
+        return {"status": "error", "message": "班级不存在"}
+
+    return {
+        "status": "success",
+        "class_id": str(cls_obj.id),
+        "student_ids": cls_obj.student_ids or [],
+        "student_count": cls_obj.student_count or 0,
+    }
+
+
+def get_class_stats(db: Session, class_id: str) -> dict:
+    cls_obj = db.query(SchoolClass).filter(SchoolClass.id == class_id).first()
+    if not cls_obj:
+        return {"status": "error", "message": "班级不存在"}
+
+    homework_count = db.query(func.count(Homework.id)).filter(
+        Homework.project_id == cls_obj.project_id
+    ).scalar() or 0
+
+    courseware_count = db.query(func.count(Courseware.id)).filter(
+        Courseware.project_id == cls_obj.project_id
+    ).scalar() or 0
+
+    return {
+        "status": "success",
+        "class_id": str(cls_obj.id),
+        "name": cls_obj.name,
+        "student_count": cls_obj.student_count or 0,
+        "homework_count": homework_count,
+        "courseware_count": courseware_count,
+    }
+
+
+def get_dashboard_overview(db: Session) -> dict:
+    projects = db.query(Project).all()
+    result = []
+    for p in projects:
+        classes = db.query(SchoolClass).filter(SchoolClass.project_id == p.id).all()
+        class_data = []
+        total_students = 0
+        for c in classes:
+            hw_count = db.query(func.count(Homework.id)).filter(
+                Homework.project_id == p.id
+            ).scalar() or 0
+            cw_count = db.query(func.count(Courseware.id)).filter(
+                Courseware.project_id == p.id
+            ).scalar() or 0
+            student_count = c.student_count or 0
+            total_students += student_count
+            class_data.append({
+                "id": str(c.id),
+                "name": c.name,
+                "grade": c.grade,
+                "student_count": student_count,
+                "homework_count": hw_count,
+                "courseware_count": cw_count,
+            })
+
+        result.append({
+            "id": str(p.id),
+            "name": p.name,
+            "class_count": len(classes),
+            "total_students": total_students,
+            "classes": class_data,
+        })
+
+    total_classes = sum(p["class_count"] for p in result)
+    total_students = sum(p["total_students"] for p in result)
+    total_projects = len(result)
+
+    return {
+        "status": "success",
+        "projects": result,
+        "summary": {
+            "total_projects": total_projects,
+            "total_classes": total_classes,
+            "total_students": total_students,
+        },
+    }

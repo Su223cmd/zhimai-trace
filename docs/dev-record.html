@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>知脉溯源 — 代码开发记录</title>
+<title>GraphAgent — 代码开发记录</title>
 <style>
   @page { size: A4; margin: 2cm 2.2cm; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,7 +53,7 @@
 
 <!-- ═══════════ 封面 ═══════════ -->
 <div class="cover">
-  <h1>知脉溯源</h1>
+  <h1>GraphAgent</h1>
   <p class="subtitle">CDM驱动的知识状态诊断与根因追溯系统 · 代码开发记录</p>
   <p style="font-size:11pt;color:rgba(0,0,0,0.55);">版本 2.0.0 | 2026年5月</p>
   <div class="ai-badge">⚠ 内容使用AI生成</div>
@@ -85,7 +85,7 @@
 <h1 id="ch1">第一章 项目概览</h1>
 
 <h2>1.1 项目定位</h2>
-<p>知脉溯源是一个面向K-12教育的智能教学辅助平台，以认知诊断理论（CDM）为算法核心，帮助教师从答题数据中量化推断学生的知识状态，实现<strong>从经验驱动到数据驱动</strong>的教学决策转型。</p>
+<p>GraphAgent是一个面向K-12教育的智能教学辅助平台，以认知诊断理论（CDM）为算法核心，帮助教师从答题数据中量化推断学生的知识状态，实现<strong>从经验驱动到数据驱动</strong>的教学决策转型。</p>
 
 <h2>1.2 代码规模</h2>
 <div style="text-align:center; margin: 16px 0;">
@@ -635,8 +635,8 @@ for iter in 1..I_max:
 <p>postgres（健康） → backend（健康） → frontend。通过 Docker Compose 的 <code>depends_on: condition: service_healthy</code> 保证启动顺序。</p>
 
 <div class="footer">
-  <p>知脉溯源 · 代码开发记录 v2.0.0</p>
-  <p>⚠ 本文档内容使用AI生成 | &copy; 2026 知脉溯源</p>
+  <p>GraphAgent · 代码开发记录 v2.0.0</p>
+  <p>⚠ 本文档内容使用AI生成 | &copy; 2026 GraphAgent</p>
 </div>
 
 </body>
